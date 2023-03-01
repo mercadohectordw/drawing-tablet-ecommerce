@@ -10,6 +10,8 @@ import { ProfileComponent } from './components/pages/profile/profile.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { ProductComponent } from './components/pages/product/product.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { RegisterComponent } from './components/pages/register/register.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ProductComponent } from './components/pages/product/product.component';
     ProfileComponent,
     HomeComponent,
     PageNotFoundComponent,
-    ProductComponent
+    ProductComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
