@@ -22,5 +22,5 @@ const verifyTokenUsers = (req, res, next) => {
 }
 
 module.exports = {
-  verifyToken
+  verifyTokenUsers
 };
