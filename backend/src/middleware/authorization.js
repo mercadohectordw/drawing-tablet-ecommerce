@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const verifyTokenUsers = (req, res, next) => {
+const verifyTokenUser = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader || authHeader === 'null'){
@@ -17,10 +17,12 @@ const verifyTokenUsers = (req, res, next) => {
       return res.status(403).send('User UnAuthorized');
     }
 
+    req = Object.assign(req.body, { userId : user.userId}); //guarda el usuario en req.body
+
     next();
   });
 }
 
 module.exports = {
-  verifyTokenUsers
+  verifyTokenUser
 };
