@@ -1,8 +1,8 @@
-const {db} = require('../db');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
-const {registerValidation, loginValidation} = require('../middleware/validation');
 require('dotenv').config();
+const {db} = require('../db');
+const {registerValidation, loginValidation} = require('../middleware/validation');
 
 const registerUser = (req, res) => {
   let userData = req.body;
@@ -75,7 +75,7 @@ const loginUser = (req, res) => {
       if(result.length <= 0){
         res.status(400).send("Usuario no encontrado");
       } else {
-        let token = jwt.sign({userId: result[0].id}, process.env.JWT_KEY);
+        let token = jwt.sign({userId: result[0].id, userEmail: result[0].email}, process.env.JWT_KEY);
         res.status(200).send({token: token});
       }
     })
