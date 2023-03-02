@@ -1,6 +1,8 @@
 const joi = require('joi');
 
-const registerValidation = (userData) => {
+const registerDataValidation = (req, res, next) => {
+  let userData = req.body;
+
   let schema = joi.object({
     first_name: joi.string().required(),
     last_name: joi.string().required(),
@@ -8,19 +10,31 @@ const registerValidation = (userData) => {
     password: joi.string().min(8).max(16).required()
   });
 
-  return schema.validate(userData);
+  let validation = schema.validate(userData);
+  if(validation.error){
+    return res.status(400).send(validation.error);
+  }
+
+  next();
 };
 
-const loginValidation = (logData) => {
+const loginDataValidation = (req, res, next) => {
+  let logData = req.body;
+
   let schema = joi.object({
     email: joi.string().email().required(),
     password: joi.string().min(8).max(16).required()
   });
 
-  return schema.validate(logData);
+  let validation = schema.validate(logData);
+  if(validation.error){
+    return res.status(400).send(validation.error);
+  }
+
+  next();
 };
 
 module.exports = {
-  registerValidation, 
-  loginValidation
+  registerDataValidation, 
+  loginDataValidation
 }
