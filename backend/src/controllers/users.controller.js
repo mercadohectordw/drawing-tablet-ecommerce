@@ -99,8 +99,25 @@ const getUser = (req, res) => {
     });
 };
 
+const getAllUsers = (req, res) => {
+  let query = `
+    SELECT first_name, last_name, email, created_at
+    FROM users
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      let result = JSON.parse(JSON.stringify(row));
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+}
+
 module.exports = {
   registerUser,
   loginUser,
-  getUser
+  getUser,
+  getAllUsers
 }
