@@ -6,8 +6,8 @@ const {verifyTokenUser, verifyTokenAdmin} = require('../middleware/authorization
 
 router.get("/", verifyTokenAdmin, getAllUsers);
 router.get("/profile", verifyTokenUser, getUser);
-router.put("/update", updateDataValidation, verifyTokenUser, updateUserData);
-router.put("/update/password", updatePasswordValidation, verifyTokenUser, updateUserPassword);
+router.put("/update", verifyTokenUser, updateDataValidation, updateUserData);
+router.put("/update/password", verifyTokenUser, updatePasswordValidation, updateUserPassword);
 
 router.post("/register", registerDataValidation, registerUser);
 router.post("/login", loginDataValidation, loginUser);

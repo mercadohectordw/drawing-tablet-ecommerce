@@ -35,7 +35,11 @@ const loginDataValidation = (req, res, next) => {
 };
 
 const updateDataValidation = (req, res, next) => {
-  let updateData = req.body;
+  let updateData = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    email: req.body.email
+  };
 
   let schema = joi.object({
     first_name: joi.string().required(),
@@ -52,8 +56,10 @@ const updateDataValidation = (req, res, next) => {
 };
 
 const updatePasswordValidation = (req, res, next) => {
-  let updatePassword = req.body;
-
+  let updatePassword = {
+    password: req.body.password
+  };
+  
   let schema = joi.object({
     password: joi.string().min(8).max(16).required()
   });
