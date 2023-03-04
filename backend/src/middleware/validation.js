@@ -34,7 +34,41 @@ const loginDataValidation = (req, res, next) => {
   next();
 };
 
+const updateDataValidation = (req, res, next) => {
+  let updateData = req.body;
+
+  let schema = joi.object({
+    first_name: joi.string().required(),
+    last_name: joi.string().required(),
+    email: joi.string().email().required(),
+  });
+
+  let validation = schema.validate(updateData);
+  if(validation.error){
+    return res.status(400).send(validation.error);
+  }
+
+  next();
+};
+
+const updatePasswordValidation = (req, res, next) => {
+  let updatePassword = req.body;
+
+  let schema = joi.object({
+    password: joi.string().min(8).max(16).required()
+  });
+
+  let validation = schema.validate(updatePassword);
+  if(validation.error){
+    return res.status(400).send(validation.error);
+  }
+
+  next();
+};
+
 module.exports = {
   registerDataValidation, 
-  loginDataValidation
+  loginDataValidation,
+  updateDataValidation,
+  updatePasswordValidation
 }

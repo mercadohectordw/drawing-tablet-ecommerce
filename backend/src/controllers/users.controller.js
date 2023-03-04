@@ -101,7 +101,7 @@ const getUser = (req, res) => {
 
 const getAllUsers = (req, res) => {
   let query = `
-    SELECT first_name, last_name, email, created_at
+    SELECT id, first_name, last_name, email, created_at
     FROM users
   `;
 
@@ -115,9 +115,51 @@ const getAllUsers = (req, res) => {
     });
 }
 
+const updateUserData = (req, res) => {
+
+  let userData = req.body;
+
+  let query = `
+    UPDATE users
+    SET first_name = "${userData.first_name}", last_name = "${userData.last_name}", email = "${userData.email}"
+    WHERE id = ${userData.userId}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send("Updated user"); 
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+}
+
+const updateUserPassword = (req, res) => {
+
+  let userData = req.body;
+
+  let hadhedPassword = md5(userData.password);
+
+  let query = `
+    UPDATE users
+    SET password = "${hadhedPassword}"
+    WHERE id = ${userData.userId}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send("Updated user password"); 
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+}
+
 module.exports = {
   registerUser,
   loginUser,
   getUser,
-  getAllUsers
+  getAllUsers,
+  updateUserData,
+  updateUserPassword
 }
