@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require("dotenv").config();
 const usersRouter = require('./routers/users.router');
+const productsRouter = require('./routers/products.router');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(cors({
 }));
 
 app.use("/api/users", usersRouter);
+app.use("/api/products", productsRouter);
 
 app.listen(port, () => {
   console.log(`Api loaded on port ${port}`);

@@ -39,7 +39,7 @@ CREATE TABLE `product`(
 
 CREATE TABLE `product_image`(
 	`id` INT NOT NULL AUTO_INCREMENT,
-    `url` INT NOT NULL,
+    `url` VARCHAR(255) NOT NULL,
     `product_id` INT NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)

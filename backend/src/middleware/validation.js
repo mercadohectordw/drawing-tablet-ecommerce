@@ -72,9 +72,37 @@ const updatePasswordValidation = (req, res, next) => {
   next();
 };
 
+const productValidation = (req, res, next) => {
+  let data = {
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    main_image: req.body.main_image,
+    category_id: req.body.category_id,
+    inventory: req.body.inventory
+  };
+
+  let schema = joi.object({
+    name: joi.string().max(255).required(),
+    description: joi.string().max(255).required(),
+    price: joi.number().positive().required(),
+    main_image: joi.string().max(255),
+    category_id: joi.number().integer().positive().required(),
+    inventory: joi.number().integer().required()
+  });
+
+  let validation = schema.validate(data);
+  if(validation.error){
+    return res.status(400).send(validation.error);
+  }
+
+  next();
+};
+
 module.exports = {
   registerDataValidation, 
   loginDataValidation,
   updateDataValidation,
-  updatePasswordValidation
+  updatePasswordValidation,
+  productValidation
 }
