@@ -26,9 +26,7 @@ const registerUser = (req, res) => {
         `;
       
         db.query(query)
-          .then(([row]) => {
-            let result = JSON.parse(JSON.stringify(row));
-            
+          .then(([row]) => { 
             res.status(200).send("Registered user!");
           })
           .catch((err) => {
