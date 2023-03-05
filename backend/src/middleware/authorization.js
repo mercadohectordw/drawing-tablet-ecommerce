@@ -37,7 +37,6 @@ const verifyTokenAdmin = (req, res, next) => {
   let token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
     if(err){
-      console.log("1");
       return res.status(403).send('User UnAuthorized');
     }
 
@@ -52,7 +51,6 @@ const verifyTokenAdmin = (req, res, next) => {
         let result = JSON.parse(JSON.stringify(row));
 
         if(result.length <= 0) {
-          console.log("2");
           return res.status(403).send('User UnAuthorized');
         }
 
@@ -60,7 +58,6 @@ const verifyTokenAdmin = (req, res, next) => {
         next();
       })
       .catch((err) => {
-        console.log(err);
         return res.status(403).send('User UnAuthorized');
       });
   });
