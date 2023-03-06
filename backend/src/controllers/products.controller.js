@@ -27,7 +27,7 @@ const getProduct = (req, res) => {
 
       //busca imagenes del producto
       let query = `
-        SELECT *
+        SELECT id, url
         FROM product_image
         WHERE product_id = ${req.params.productId}
       `;
@@ -71,7 +71,8 @@ const createProduct = (req, res) => {
   `;
 
   db.query(query)
-    .then(([row]) => {
+    .then(async([row]) => {
+      await postProductImages(body.images, row.insertId);
       res.status(200).send("Product created");
     })
     .catch((err) => {
@@ -90,7 +91,6 @@ const updateProduct = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-
       if(row.affectedRows == 0){
         return res.status(400).send("Product not found");
       }
@@ -102,15 +102,16 @@ const updateProduct = (req, res) => {
     });
 };
 
-const deleteProduct = (req, res) => {
+const deleteProduct = async(req, res) => {
   let query = `
     DELETE FROM product
     WHERE id = ${req.params.productId}
   `;
 
+  await deleteAllProductImages(req.params.productId);
+  
   db.query(query)
     .then(([row]) => {
-
       if(row.affectedRows == 0){
         return res.status(400).send("Product not found");
       }
@@ -122,6 +123,70 @@ const deleteProduct = (req, res) => {
     });
 };
 
+const postNewProductImage = (req, res) => {
+  let query = `
+    INSERT INTO product_image (url, product_id) VALUES
+    ("${req.body.url}", ${req.params.productId});
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send("Product image registered");
+    })
+    .catch((err) => {
+      res.status(400).send("Something went wrong")
+    });
+};
+
+const deleteOldProductImage = (req, res) => {
+  let query = `
+    DELETE FROM product_image
+    WHERE id = ${req.params.imageId}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send("Product image deleted");
+    })
+    .catch((err) => {
+      res.status(400).send("Something went wrong")
+    });
+};
+
+//metodos auxiliares
+const postProductImages = (images, product_id) => {
+  if(images.length == 0){
+    return;
+  }
+
+  let query = `
+    INSERT INTO product_image (url, product_id) VALUES
+  `;
+
+  for(let i of images) {
+    query = query + `("${i}", ${product_id}),`;
+  }
+  query = query.slice(0,-1);
+
+  db.query(query)
+    .then(([row]) => {
+      return;
+    })
+};
+
+const deleteAllProductImages = (product_id) => {
+  let query = `
+    DELETE FROM product_image
+    WHERE product_id = ${product_id}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      return;
+    });
+};
+
+
 
 module.exports = {
   getAllProducts,
@@ -129,5 +194,7 @@ module.exports = {
   getProductsByCategory,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  postNewProductImage,
+  deleteOldProductImage
 };
