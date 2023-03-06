@@ -73,7 +73,6 @@ const loginUser = (req, res) => {
 };
 
 const getUser = (req, res) => {
-
   let user = req.body.userId;
 
   let query = `
@@ -114,7 +113,6 @@ const getAllUsers = (req, res) => {
 }
 
 const updateUserData = (req, res) => {
-
   let userData = req.body;
 
   let query = `
@@ -133,7 +131,6 @@ const updateUserData = (req, res) => {
 }
 
 const updateUserPassword = (req, res) => {
-
   let userData = req.body;
 
   let hadhedPassword = md5(userData.password);
@@ -153,11 +150,51 @@ const updateUserPassword = (req, res) => {
     });
 }
 
+const assignNewAdmin = (req, res) => {
+  if(req.body.userId == req.params.userId){
+    return res.status(400).send("Something went wrong. That's your account!");
+  }
+
+  let query = `
+    INSERT INTO admin VALUES
+    (${req.params.userId})
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send("Assigned admin");
+    })
+    .catch((err) => {
+      res.status(400).send({message:"Something went wrong", error: err});
+    });
+};
+
+const deleteAdmin = (req, res) => {
+  if(req.body.userId == req.params.userId){
+    return res.status(400).send("Something went wrong. That's your account!");
+  }
+
+  let query = `
+    DELETE FROM admin
+    WHERE user_id = ${req.params.userId}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send("Unassigned admin");
+    })
+    .catch((err) => {
+      res.status(400).send({message:"Something went wrong", error: err});
+    });
+}
+
 module.exports = {
   registerUser,
   loginUser,
   getUser,
   getAllUsers,
   updateUserData,
-  updateUserPassword
+  updateUserPassword,
+  assignNewAdmin,
+  deleteAdmin
 }

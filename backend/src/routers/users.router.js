@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {registerUser, loginUser, getUser, getAllUsers, updateUserData, updateUserPassword} = require('../controllers/users.controller');
+const {registerUser, loginUser, getUser, getAllUsers, updateUserData, updateUserPassword, assignNewAdmin, deleteAdmin} = require('../controllers/users.controller');
 const {registerDataValidation, loginDataValidation, updateDataValidation, updatePasswordValidation} = require('../middleware/validation');
 const {verifyTokenUser, verifyTokenAdmin} = require('../middleware/authorization');
 
@@ -12,5 +12,7 @@ router.put("/update/password", verifyTokenUser, updatePasswordValidation, update
 router.post("/register", registerDataValidation, registerUser);
 router.post("/login", loginDataValidation, loginUser);
 
+router.post("/admin/:userId", verifyTokenAdmin, assignNewAdmin);
+router.delete("/admin/:userId", verifyTokenAdmin, deleteAdmin);
 
 module.exports = router;
