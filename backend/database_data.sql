@@ -44,3 +44,53 @@ CREATE TABLE `product_image`(
     PRIMARY KEY (`id`),
     FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 );
+
+CREATE TABLE `cart` (
+    `user_id` INT NOT NULL,
+    `created_at` DATETIME NOT NULL,
+    PRIMARY KEY (`user_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+);
+
+CREATE TABLE `cart_item` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+    `cart_id` INT NOT NULL, 
+    `product_id` INT NOT NULL,
+    `quantity` INT NOT NULL, 
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`cart_id`) REFERENCES `cart` (`user_id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+);
+
+CREATE TABLE `order` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `total` DECIMAL(10, 0) NOT NULL,
+    `created_at` DATETIME NOT NULL,
+    `shipped` BOOLEAN NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+);
+
+CREATE TABLE `order_item` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+    `order_id` INT NOT NULL, 
+	`product_id` INT NOT NULL, 
+    `quantity` INT NOT NULL,
+    `price_per_unit` DECIMAL(10, 0) NOT NULL,
+	PRIMARY KEY (`id`),
+    FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
+    FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+);
+
+CREATE TABLE `shipping_address` (
+	`order_id` INT NOT NULL,
+    `address_line` VARCHAR(255) NOT NULL,
+    `city` VARCHAR(200) NOT NULL,
+    `province` VARCHAR(200) NOT NULL,
+    `country` VARCHAR(100) NOT NULL,
+    `postal_code` VARCHAR(8) NOT NULL,
+	`mobile` VARCHAR(14) NOT NULL,
+	PRIMARY KEY (`order_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
+);

@@ -26,12 +26,12 @@ const getProduct = (req, res) => {
     .then(([row]) => {
 
       //busca imagenes del producto
-      let query = `
+      let query2 = `
         SELECT id, url
         FROM product_image
         WHERE product_id = ${req.params.productId}
       `;
-      db.query(query)
+      db.query(query2)
         .then(([images]) => {
           row[0].images = images;
           res.status(200).send(row[0]);
