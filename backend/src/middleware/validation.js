@@ -99,10 +99,31 @@ const productValidation = (req, res, next) => {
   next();
 };
 
+const addressValidation = (req, res, next) => {
+  let addressData = req.body.shipping_address;
+
+  let schema = joi.object({
+    address_line: joi.string().max(255).required(),
+    city: joi.string().max(200).required(),
+    province: joi.string().max(200).required(),
+    country: joi.string().max(100).required(),
+    postal_code: joi.string().max(8).required(),
+    mobile: joi.string().max(14).required()
+  });
+
+  let validation = schema.validate(addressData);
+  if(validation.error){
+    return res.status(400).send(validation.error);
+  }
+
+  next();
+};
+
 module.exports = {
   registerDataValidation, 
   loginDataValidation,
   updateDataValidation,
   updatePasswordValidation,
-  productValidation
+  productValidation,
+  addressValidation
 }
