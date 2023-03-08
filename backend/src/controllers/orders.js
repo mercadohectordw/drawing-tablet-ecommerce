@@ -105,6 +105,45 @@ const getOrder = (req, res) => {
     });
 };
 
+const markOrderAsShipped = (req, res) => {
+  let query = `
+    UPDATE \`order\`
+    SET shipped = 1
+    WHERE id = ${req.params.orderId}
+  `;
+
+  db.query(query)
+    .then(([rows]) => {
+      res.status(200).send("The order was updated");
+    })
+    .catch((err) => {
+      res.status(400).send("Something went wrong");
+    });
+};
+
+const deleteOrder = (req, res) => {
+  let query1 = `
+    DELETE FROM order_item
+    WHERE order_id = ${req.params.orderId}
+  `;
+
+  db.query(query1)
+    .then(([rows]) => {
+      let query2 = `
+        DELETE FROM \`order\`
+        WHERE id = ${req.params.orderId}
+      `;
+
+      db.query(query2)
+        .then(([rows]) => {
+          res.status(200).send("The order was deleted");
+        });
+    })
+    .catch((err) => {
+      res.status(400).send("Something went wrong");
+    });
+}
+
 //metodos auxiliares
 const postOrderItems = async(items, order_id) => {
   let query = `
@@ -172,5 +211,7 @@ module.exports = {
   getUserOrders, 
   createOrderFromUser,
   getAllOrders,
-  getOrder
+  getOrder,
+  markOrderAsShipped,
+  deleteOrder
 };
