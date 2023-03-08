@@ -11,7 +11,7 @@ const getAllProducts = (req, res) => {
       res.status(200).send(rows);
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send("Something went wrong");
     });
 };
 
@@ -37,12 +37,12 @@ const getProduct = (req, res) => {
           res.status(200).send(row[0]);
         })
         .catch((err) => {
-          res.status(400).send(err);
+          res.status(400).send("Something went wrong");
         });
 
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send("Something went wrong");
     });
 };
 
@@ -58,7 +58,7 @@ const getProductsByCategory = (req, res) => {
     res.status(200).send(rows);
   })
   .catch((err) => {
-    res.status(400).send(err);
+    res.status(400).send("Something went wrong");
   });
 };
 

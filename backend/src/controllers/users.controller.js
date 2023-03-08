@@ -67,8 +67,7 @@ const loginUser = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(400).send(err);
-      console.log(err);
+      res.status(400).send("Something went wrong");
     });
 };
 
@@ -92,7 +91,7 @@ const getUser = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send("Something went wrong");
     });
 };
 
@@ -108,7 +107,7 @@ const getAllUsers = (req, res) => {
       res.status(200).json(result);
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send("Something went wrong");
     });
 }
 
@@ -126,7 +125,7 @@ const updateUserData = (req, res) => {
       res.status(200).send("Updated user"); 
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send("Something went wrong");
     });
 }
 
@@ -146,7 +145,7 @@ const updateUserPassword = (req, res) => {
       res.status(200).send("Updated user password"); 
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(400).send("Something went wrong");
     });
 }
 
@@ -165,7 +164,7 @@ const assignNewAdmin = (req, res) => {
       res.status(200).send("Assigned admin");
     })
     .catch((err) => {
-      res.status(400).send({message:"Something went wrong", error: err});
+      res.status(400).send("Something went wrong");
     });
 };
 
@@ -184,7 +183,7 @@ const deleteAdmin = (req, res) => {
       res.status(200).send("Unassigned admin");
     })
     .catch((err) => {
-      res.status(400).send({message:"Something went wrong", error: err});
+      res.status(400).send("Something went wrong");
     });
 }
 
