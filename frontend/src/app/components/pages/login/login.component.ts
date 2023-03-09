@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -21,11 +22,22 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let token = localStorage.getItem("token");
+    if(token){
+      this.userService.getUser(token).subscribe({
+        next: (res:User) => {
+          this.router.navigateByUrl("/home");
+        },
+        error: (err:any) => {
+          localStorage.removeItem("token");
+        }
+      });
+    }
   }
 
   submitForm(): void{
 
-    if(!this.loginUser.invalid){
+    if(this.loginUser.invalid){
       this.errorMessage = "Check your data";
       return;
     }

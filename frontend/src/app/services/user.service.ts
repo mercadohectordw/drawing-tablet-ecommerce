@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
@@ -13,11 +13,22 @@ export class UserService {
 
   constructor(private http:HttpClient) { }
 
-  register(user:User): Observable<string> {
-    return this.http.post<string>(this.api + 'users/register/', user);
+  register(user:User): Observable<any> {
+    return this.http.post<any>(this.api + 'users/register/', user);
   }
 
-  login(user:User): Observable<string>{
+  login(user:User): Observable<any>{
     return this.http.post<any>(this.api + 'users/login/', user);
+  }
+
+  getUser(token:string): Observable<any>{
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/json',
+        authorization: 'Bearer ' + token
+      })
+    }
+
+    return this.http.get<any>(this.api + 'users/profile/', httpOptions);
   }
 }
