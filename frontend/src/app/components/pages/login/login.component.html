@@ -1,1 +1,14 @@
-<p>login works!</p>
+<main class="w-96 mx-auto mt-2 mb-10 p-5 bg-slate-200 rounded-lg">
+  <h3>Login to Account</h3>
+
+  <form (ngSubmit)="submitForm();" [formGroup]="loginUser" method="post">
+    <input type="text" formControlName="email" class="my-1 px-3 py-1 w-full rounded-lg" placeholder="Email">
+    <input type="password" formControlName="password" class="my-1 px-3 py-1 w-full rounded-lg" placeholder="Contraseña">
+
+    <br><br>
+    <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+    <br>
+
+    <button type="submit" class="bg-green-300 p-2 rounded ml-auto">Login</button>
+  </form>
+</main>
