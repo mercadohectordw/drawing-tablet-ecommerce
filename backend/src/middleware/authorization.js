@@ -6,16 +6,16 @@ const verifyTokenUser = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader || authHeader === 'null'){
-    return res.status(403).send('User UnAuthorized');
+    return res.status(403).send({message:'User UnAuthorized'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
-    return res.status(400).send('Invalid Token');
+    return res.status(400).send({message:'Invalid Token'});
   }
 
   let token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
     if(err){
-      return res.status(403).send('User UnAuthorized');
+      return res.status(403).send({message:'User UnAuthorized'});
     }
 
     req = Object.assign(req.body, { userId : user.userId}); //guarda el usuario en req.body
@@ -28,16 +28,16 @@ const verifyTokenAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader || authHeader === 'null'){
-    return res.status(403).send('User UnAuthorized');
+    return res.status(403).send({message:'User UnAuthorized'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
-    return res.status(400).send('Invalid Token');
+    return res.status(400).send({message:'Invalid Token'});
   }
 
   let token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
     if(err){
-      return res.status(403).send('User UnAuthorized');
+      return res.status(403).send({message:'User UnAuthorized'});
     }
 
     let query = `
@@ -51,14 +51,14 @@ const verifyTokenAdmin = (req, res, next) => {
         let result = JSON.parse(JSON.stringify(row));
 
         if(result.length <= 0) {
-          return res.status(403).send('User UnAuthorized');
+          return res.status(403).send({message:'User UnAuthorized'});
         }
 
         req = Object.assign(req.body, { userId : user.userId}); //guarda el usuario en req.body
         next();
       })
       .catch((err) => {
-        return res.status(403).send('User UnAuthorized');
+        return res.status(403).send({message:'User UnAuthorized'});
       });
   });
 }

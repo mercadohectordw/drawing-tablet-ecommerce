@@ -11,7 +11,7 @@ const getAllProducts = (req, res) => {
       res.status(200).send(rows);
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -37,12 +37,12 @@ const getProduct = (req, res) => {
           res.status(200).send(row[0]);
         })
         .catch((err) => {
-          res.status(400).send("Something went wrong");
+          res.status(400).send({message:"Something went wrong"});
         });
 
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -58,7 +58,7 @@ const getProductsByCategory = (req, res) => {
     res.status(200).send(rows);
   })
   .catch((err) => {
-    res.status(400).send("Something went wrong");
+    res.status(400).send({message:"Something went wrong"});
   });
 };
 
@@ -73,10 +73,10 @@ const createProduct = (req, res) => {
   db.query(query)
     .then(async([row]) => {
       await postProductImages(body.images, row.insertId);
-      res.status(200).send("Product created");
+      res.status(200).send({message:"Product created"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -92,13 +92,13 @@ const updateProduct = (req, res) => {
   db.query(query)
     .then(([row]) => {
       if(row.affectedRows == 0){
-        return res.status(400).send("Product not found");
+        return res.status(400).send({message:"Product not found"});
       }
 
-      res.status(200).send("Product updated");
+      res.status(200).send({message:"Product updated"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -113,13 +113,13 @@ const deleteProduct = async(req, res) => {
   db.query(query)
     .then(([row]) => {
       if(row.affectedRows == 0){
-        return res.status(400).send("Product not found");
+        return res.status(400).send({message:"Product not found"});
       }
 
-      res.status(200).send("Product deleted");
+      res.status(200).send({message:"Product deleted"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -131,10 +131,10 @@ const postNewProductImage = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("Product image registered");
+      res.status(200).send({message:"Product image registered"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong")
+      res.status(400).send({message:"Something went wrong"})
     });
 };
 
@@ -146,10 +146,10 @@ const deleteOldProductImage = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("Product image deleted");
+      res.status(200).send({message:"Product image deleted"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong")
+      res.status(400).send({message:"Something went wrong"})
     });
 };
 

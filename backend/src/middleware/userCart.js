@@ -16,7 +16,7 @@ const verifyUserCart = (req, res, next) => {
       next();
     })
     .catch((err) => {
-      return res.status(400).send("Something went wrong");
+      return res.status(400).send({message:"Something went wrong"});
     });
 };
 

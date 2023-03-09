@@ -27,20 +27,20 @@ const registerUser = (req, res) => {
       
         db.query(query)
           .then(([row]) => { 
-            res.status(200).send("Registered user!");
+            res.status(200).send({message:"The user was registered"});
           })
           .catch((err) => {
             console.log("Failed to create a new user: \n" + err);
-            res.status(400).send("There was a problem, please try again later");
+            res.status(400).send({message:"Something went wrong"});
           });
 
       } else { //email usado => respuesta de email en uso
-        res.status(400).send("Email is already in use.");
+        res.status(400).send({message:"The email is already in use"});
       }
     })
     .catch((err) => {
       console.log("Failed to create a new user: \n" + err);
-      res.status(400).send("There was a problem, please try again later");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 
@@ -60,14 +60,14 @@ const loginUser = (req, res) => {
       let result = JSON.parse(JSON.stringify(row));
 
       if(result.length <= 0){
-        res.status(400).send("User not found");
+        res.status(400).send({message:"User not found"});
       } else {
         let token = jwt.sign({userId: result[0].id, userEmail: result[0].email}, process.env.JWT_KEY);
         res.status(200).send({token: token});
       }
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -85,13 +85,13 @@ const getUser = (req, res) => {
       let result = JSON.parse(JSON.stringify(row));
 
       if(result.length <= 0) {
-        res.status(404).send("User not found");
+        res.status(404).send({message:"User not found"});
       } else {
         res.status(200).json(result[0]); 
       }
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -107,7 +107,7 @@ const getAllUsers = (req, res) => {
       res.status(200).json(result);
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 
@@ -122,10 +122,10 @@ const updateUserData = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("Updated user"); 
+      res.status(200).send({message:"Updated user"}); 
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 
@@ -142,16 +142,16 @@ const updateUserPassword = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("Updated user password"); 
+      res.status(200).send({message:"Updated user password"}); 
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 
 const assignNewAdmin = (req, res) => {
   if(req.body.userId == req.params.userId){
-    return res.status(400).send("Something went wrong. That's your account!");
+    return res.status(400).send({message:"Something went wrong. That's your account!"});
   }
 
   let query = `
@@ -161,16 +161,16 @@ const assignNewAdmin = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("Assigned admin");
+      res.status(200).send({message:"Assigned admin"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
 const deleteAdmin = (req, res) => {
   if(req.body.userId == req.params.userId){
-    return res.status(400).send("Something went wrong. That's your account!");
+    return res.status(400).send({message:"Something went wrong. That's your account!"});
   }
 
   let query = `
@@ -180,10 +180,10 @@ const deleteAdmin = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("Unassigned admin");
+      res.status(200).send({message:"Unassigned admin"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 

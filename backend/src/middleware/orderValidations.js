@@ -10,14 +10,14 @@ const getOrderData = (req, res, next) => {
   db.query(query)
     .then(([rows]) => {
       if(rows.length == 0){
-        return res.status(400).send("Something went wrong");
+        return res.status(400).send({message:"Something went wrong"});
       }
 
       let total = 0;
 
       for(let i of rows){
         if(i.quantity > i.inventoryOfProduct){
-          return res.status(400).send("Sorry, we don't have enough stock");
+          return res.status(400).send({message:"Sorry, we don't have enough stock"});
         }
 
         total += i.quantity * i.price_per_unit;
@@ -28,7 +28,7 @@ const getOrderData = (req, res, next) => {
       next();
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -42,13 +42,13 @@ const verifyOrderBelongsToUser = (req, res, next) => {
   db.query(query)
     .then(([row]) => {
       if(row[0].user_id != req.body.userId){
-        return res.status(400).send("Something went wrong");
+        return res.status(400).send({message:"Something went wrong"});
       }
       next();
     })
     .catch((err) => {
       console.log(2);
-      return res.status(400).send("Something went wrong")
+      return res.status(400).send({message:"Something went wrong"})
     });
 };
 

@@ -13,7 +13,7 @@ const getUserOrders = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 
@@ -29,10 +29,10 @@ const createOrderFromUser = (req, res) => {
       await deleteCart(req.body.userId);
       await saveShippingAddress(req.body.shipping_address, row.insertId);
 
-      res.status(200).send("The order was saved");
+      res.status(200).send({message:"The order was saved"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -47,7 +47,7 @@ const getAllOrders = (req, res) => {
       res.status(200).send(rows);
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -101,7 +101,7 @@ const getOrder = (req, res) => {
       res.status(200).send(result);
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -114,10 +114,10 @@ const markOrderAsShipped = (req, res) => {
 
   db.query(query)
     .then(([rows]) => {
-      res.status(200).send("The order was updated");
+      res.status(200).send({message:"The order was updated"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -136,11 +136,11 @@ const deleteOrder = (req, res) => {
 
       db.query(query2)
         .then(([rows]) => {
-          res.status(200).send("The order was deleted");
+          res.status(200).send({message:"The order was deleted"});
         });
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 

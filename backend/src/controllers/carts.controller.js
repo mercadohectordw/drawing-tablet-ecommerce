@@ -10,7 +10,7 @@ const getCart = (req, res) => {
   db.query(query)
     .then(([results]) => {
       if(results.length == 0){
-        res.status(400).send("There are no products in the cart");
+        res.status(400).send({message:"There are no products in the cart"});
       }
       let cart = {
         id: req.body.userId,
@@ -19,8 +19,7 @@ const getCart = (req, res) => {
       res.status(200).send(cart);
     })
     .catch((err) => {
-      console.log(err);
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 }
 
@@ -35,10 +34,10 @@ const addItem = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("The product was added");
+      res.status(200).send({message:"The product was added"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -51,10 +50,10 @@ const updateItem = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("The product was updated");
+      res.status(200).send({message:"The product was updated"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 
@@ -66,10 +65,10 @@ const deleteItem = (req, res) => {
 
   db.query(query)
     .then(([row]) => {
-      res.status(200).send("The product was removed");
+      res.status(200).send({message:"The product was removed"});
     })
     .catch((err) => {
-      res.status(400).send("Something went wrong");
+      res.status(400).send({message:"Something went wrong"});
     });
 };
 

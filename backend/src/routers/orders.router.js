@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { verifyTokenUser, verifyTokenAdmin } = require('../middleware/authorization');
 const { getOrderData, verifyOrderBelongsToUser } = require('../middleware/orderValidations');
-const { createOrderFromUser, getUserOrders, getAllOrders, getOrder, markOrderAsShipped, deleteOrder } = require('../controllers/orders');
+const { createOrderFromUser, getUserOrders, getAllOrders, getOrder, markOrderAsShipped, deleteOrder } = require('../controllers/orders.controller');
 const { addressValidation } = require('../middleware/validation');
 
 router.get("/user/", verifyTokenUser, getUserOrders);
