@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/User';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  user!: User;
+
+  constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit(): void {
+    let token = localStorage.getItem("token");
+    if(token){
+      this.userService.getUser(token).subscribe({
+        next: (res:User) => {
+          this.user = res;
+          console.log(this.user);
+        },
+        error: (err:any) => {
+          localStorage.removeItem("token");
+        }
+      });
+    }
   }
 
 }
