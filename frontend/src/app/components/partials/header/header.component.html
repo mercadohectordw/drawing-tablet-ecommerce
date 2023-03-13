@@ -1,18 +1,18 @@
 <header class="w-full px-10 border-b border-gray-300">
   <div class="h-16 flex flex-row items-center justify-between">
-    <a href="/home" class="">
+    <a routerLink="/home" class="text-xl font-bold">
       Drawing Tablets
     </a>
 
     <div>
       <ul *ngIf="!user.email" class="flex flex-row items-center gap-2">
         <li>
-          <a href="/login" class="block px-4 py-2 bg-orange-100 rounded-xl hover:bg-orange-300">
+          <a routerLink="/login" class="block px-4 py-2 bg-orange-100 rounded-xl hover:bg-orange-300">
             Log in
           </a>
         </li>
         <li>
-          <a href="/register" class="block px-4 py-2 bg-orange-100 rounded-xl hover:bg-orange-300">
+          <a routerLink="/register" class="block px-4 py-2 bg-orange-100 rounded-xl hover:bg-orange-300">
             Sign in
           </a>
         </li>
@@ -25,12 +25,12 @@
 
         <ul id="dropdownUserMenu" class="absolute z-10 right-0 w-full flex flex-row items-stretch gap-6 bg-white rounded-xl shadow-md overflow-hidden border-t-2 border-gray-100 text-center" style="display: none;">
           <li>
-            <a href="/profile" class="block p-1.5 hover:bg-gray-100">
+            <a routerLink="/profile" class="block p-1.5 hover:bg-gray-100">
               Profile
             </a>
           </li>
           <li>
-            <a href="/profile/options" class="block p-1.5 hover:bg-gray-100">
+            <a routerLink="/profile/options" class="block p-1.5 hover:bg-gray-100">
               Settings
             </a>
           </li>
@@ -47,32 +47,32 @@
   <nav class="h-12 flex flex-row items-center justify-between">
     <ul class="flex flex-row items-center gap-6">
       <li *ngIf="user.admin == 1">
-        <a href="/admin" class="block py-2">
+        <a routerLink="/admin" class="block py-2">
           Admin
         </a>
       </li>
       <li>
-        <a href="/home" class="block py-2">
+        <a routerLink="/home" class="block py-2">
           Home
         </a>
       </li>
       <li>
-        <a href="/pen-tablets" class="block py-2">
+        <a routerLink="/pen-tablets" class="block py-2">
           Pen Tablets
         </a>
       </li>
       <li>
-        <a href="/pen-displays" class="block py-2">
+        <a routerLink="/pen-displays" class="block py-2">
           Pen Displays
         </a>
       </li>
       <li>
-        <a href="/accessories" class="block py-2">
+        <a routerLink="/accessories" class="block py-2">
           Accessories
         </a>
       </li>
       <li>
-        <a href="/contact" class="block py-2">
+        <a routerLink="/contact" class="block py-2">
           Contact
         </a>
       </li>
@@ -90,7 +90,7 @@
       <div class="border border-gray-300 h-10"></div>
 
       <div class="">
-        <a href="/cart" class="block p-1">
+        <a routerLink="/cart" class="block p-1">
           <i class="fa-solid fa-cart-shopping fa-xl"></i>
         </a>
       </div>
