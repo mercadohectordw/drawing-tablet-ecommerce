@@ -89,9 +89,12 @@
 
       <div class="border border-gray-300 h-10"></div>
 
-      <div class="">
+      <div class="relative">
         <a routerLink="/cart" class="block p-1">
           <i class="fa-solid fa-cart-shopping fa-xl"></i>
+          <span *ngIf="user.items_in_cart != 0 && user.items_in_cart != null" class="absolute right-0 top-0 w-4 h-4 rounded-full bg-orange-300 text-xs text-center">
+            {{user.items_in_cart}}
+          </span>
         </a>
       </div>
     </div>

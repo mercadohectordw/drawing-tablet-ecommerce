@@ -6,4 +6,5 @@ export class User{
   password?: string;
   created_at?: string;
   admin?: number;
+  items_in_cart?: number;
 };

@@ -75,7 +75,8 @@ const getUser = (req, res) => {
   let user = req.body.userId;
 
   let query = `
-    SELECT first_name, last_name, email, created_at, EXISTS(SELECT * FROM admin WHERE user_id = ${user}) as \`admin\`
+    SELECT first_name, last_name, email, created_at, EXISTS(SELECT * FROM admin WHERE user_id = ${user}) as \`admin\`,
+    (SELECT COUNT(*) FROM cart_item ci WHERE ci.cart_id = ${user}) AS items_in_cart
     FROM users
     WHERE id = ${user}
   `;
