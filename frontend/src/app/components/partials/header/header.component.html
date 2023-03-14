@@ -1,1 +1,102 @@
-<p>header works!</p>
+<header class="w-full px-10 border-b border-gray-300">
+  <div class="h-16 flex flex-row items-center justify-between">
+    <a routerLink="/home" class="text-xl font-bold">
+      Drawing Tablets
+    </a>
+
+    <div>
+      <ul *ngIf="!user.email" class="flex flex-row items-center gap-2">
+        <li>
+          <a routerLink="/login" class="block px-4 py-2 bg-orange-100 rounded-xl hover:bg-orange-300">
+            Log in
+          </a>
+        </li>
+        <li>
+          <a routerLink="/register" class="block px-4 py-2 bg-orange-100 rounded-xl hover:bg-orange-300">
+            Sign in
+          </a>
+        </li>
+      </ul>
+
+      <div *ngIf="user.email" class="relative w-max">
+        <button id="buttomDropdownUserMenu" type="button" (click)="dropdown()" class="min-w-[8rem] h-8 text-right cursor-pointer">
+          {{user.first_name}} {{user.last_name}}
+        </button>
+
+        <ul id="dropdownUserMenu" class="absolute z-10 right-0 w-full flex flex-row items-stretch gap-6 bg-white rounded-xl shadow-md overflow-hidden border-t-2 border-gray-100 text-center" style="display: none;">
+          <li>
+            <a routerLink="/profile" (click)="dropdown()" class="block p-1.5 hover:bg-gray-100">
+              Profile
+            </a>
+          </li>
+          <li>
+            <a routerLink="/profile/options" (click)="dropdown()" class="block p-1.5 hover:bg-gray-100">
+              Settings
+            </a>
+          </li>
+          <li>
+            <button  type="button" (click)="logout()" class="block w-full p-1.5 hover:bg-gray-100">
+              log out
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <nav class="h-12 flex flex-row items-center justify-between">
+    <ul class="flex flex-row items-center gap-6">
+      <li *ngIf="user.admin == 1">
+        <a routerLink="/admin" class="block py-2">
+          Admin
+        </a>
+      </li>
+      <li>
+        <a routerLink="/home" class="block py-2">
+          Home
+        </a>
+      </li>
+      <li>
+        <a routerLink="/pen-tablets" class="block py-2">
+          Pen Tablets
+        </a>
+      </li>
+      <li>
+        <a routerLink="/pen-displays" class="block py-2">
+          Pen Displays
+        </a>
+      </li>
+      <li>
+        <a routerLink="/accessories" class="block py-2">
+          Accessories
+        </a>
+      </li>
+      <li>
+        <a routerLink="/contact" class="block py-2">
+          Contact
+        </a>
+      </li>
+    </ul>
+
+    <div class="flex flex-row items-center gap-2">
+      <form (ngSubmit)="search();" [formGroup]="formSearch" class="relative flex flex-row items-center gap-2">
+        <input type="search" formControlName="search" id="search" style="display: none;" class="w-64 p-1.5 pl-3 border border-gray-300 rounded-xl" placeholder="Search...">
+        
+        <button type="submit" class="cursor-pointer">
+          <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+        </button>
+      </form>
+
+      <div class="border border-gray-300 h-10"></div>
+
+      <div class="relative">
+        <a routerLink="/cart" class="block p-1">
+          <i class="fa-solid fa-cart-shopping fa-xl"></i>
+          <span *ngIf="user.items_in_cart != 0 && user.items_in_cart != null" class="absolute right-0 top-0 w-4 h-4 rounded-full bg-orange-300 text-xs text-center">
+            {{user.items_in_cart}}
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

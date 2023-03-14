@@ -75,7 +75,8 @@ const getUser = (req, res) => {
   let user = req.body.userId;
 
   let query = `
-    SELECT first_name, last_name, email, created_at
+    SELECT first_name, last_name, email, created_at, EXISTS(SELECT * FROM admin WHERE user_id = ${user}) as \`admin\`,
+    (SELECT COUNT(*) FROM cart_item ci WHERE ci.cart_id = ${user}) AS items_in_cart
     FROM users
     WHERE id = ${user}
   `;
@@ -97,8 +98,9 @@ const getUser = (req, res) => {
 
 const getAllUsers = (req, res) => {
   let query = `
-    SELECT id, first_name, last_name, email, created_at
-    FROM users
+    SELECT u.id, u.first_name, u.last_name, u.email, u.created_at, 
+    CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS \`admin\`
+    FROM users u LEFT JOIN admin a ON u.id = a.user_id
   `;
 
   db.query(query)

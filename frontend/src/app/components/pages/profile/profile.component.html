@@ -1,1 +1,33 @@
-<p>profile works!</p>
+<main class="p-10 pb-20 grid grid-cols-2 gap-4">
+  <section class="text-center py-4">
+    <i class="fa-solid fa-user-tie fa-8x"></i>
+    <h2 class="mt-8 mb-5 text-2xl">{{user.first_name}} {{user.last_name}}</h2>
+    <p class="text-xs text-neutral-600 mb-8">
+      Email: <span class="text-base text-black">{{user.email}}</span><br>
+      Created At: <span class="text-base text-black">{{user.created_at | date}}</span>
+    </p>
+
+    <a routerLink="/profile/options" class="px-4 py-2 outline outline-1 outline-black rounded-md hover:bg-neutral-800 hover:text-white">
+      EDIT
+    </a>
+  </section>
+  
+  <section class="">
+    <h2 class="text-lg mb-4">My Orders</h2>
+
+    <ul class="flex flex-col gap-4">
+      <li *ngFor="let o of orders">
+        <div class="rounded-lg shadow-lg outline outline-1 outline-neutral-300 p-4 flex flex-row items-center justify-between">
+          <p>
+            <i class="fa-solid fa-calendar"></i> Date: <span class="">{{o.created_at | date}}</span> <br>
+            <i class="fa-solid fa-tag"></i> Total Price: <span class="">{{o.total | currency}}</span> <br>
+            Delivered: {{o.shipped == 0 ? 'No' : 'Yes'}}
+          </p>
+          <a routerLink="/profile/orders/{{o.id}}" class="px-4 py-2 outline outline-1 outline-black rounded-md hover:bg-neutral-800 hover:text-white">
+            See Details
+          </a>
+        </div>
+      </li>
+    </ul>
+  </section>
+</main>

@@ -10,17 +10,18 @@ import { ProdListComponent } from './components/pages/prod-list/prod-list.compon
 
 const routes: Routes = [
   {path: "home", component: HomeComponent},
+  {path: "pen-tablets", component: ProdListComponent},
+  {path: "pen-displays", component: ProdListComponent},
+  {path: "accessories", component: ProdListComponent},
+  {path: "product/:product_id", component: ProductComponent},
+
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: "profile", component: ProfileComponent},
-
-  {path: "pen-tablet", component: ProdListComponent},
-  {path: "pen-display", component: ProdListComponent},
-  {path: "accessories", component: ProdListComponent},
-  {path: "product/:product_id", component: ProductComponent},
   
+  {path: "page-not-found", component: PageNotFoundComponent},
   {path: "", redirectTo: "home", pathMatch: 'full'},
-  {path: "**", component: PageNotFoundComponent}
+  {path: "**", redirectTo: "page-not-found", pathMatch: 'full'}
 ];
 
 @NgModule({

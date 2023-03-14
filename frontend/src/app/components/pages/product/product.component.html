@@ -1,1 +1,47 @@
-<p>product works!</p>
+<main class="px-10 pb-20">
+  <div class="my-4">
+    <span class="text-sm">
+      <a routerLink="/home">Home</a> / <a routerLink="{{path.url}}">{{path.name}}</a> / {{product.name}} 
+    </span>
+  </div>
+
+  <section class="max-w-4xl mx-auto grid grid-cols-2 gap-8">
+    <div class="h-[542px]">
+      <img src="{{imageInView}}" alt="{{product.name}}" class="w-full aspect-square object-contain">
+      <ul class=" flex flex-row gap-4">
+        <li *ngFor="let i of images; index as pos">
+          <button type="button" (click)="newImageInView(pos)" [ngClass]="i.url == imageInView ? 'outline outline-orange-200 rounded-sm' : ''">
+            <img src="{{i.url}}" alt="{{product.name}}" class="w-24 h-24 p-2 object-contain outline outline-1 outline-gray-300 rounded-sm">
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-5xl font-bold mt-8 mb-2">{{product.name}}</h2>
+      <div class="my-2 flex items-center">
+        <div class="mr-2">{{product.category.toUpperCase()}}</div> 
+        <div class="h-[2px] grow my-4 bg-black"></div>
+      </div>
+      <div class="flex flex-row justify-between">
+        <span class="text-xl">{{product.price | currency}}</span>
+        <span>Stock: {{product.inventory}}</span>
+      </div>
+
+      <p class="my-4 text-neutral-600">{{product.description}}</p>
+
+      <div class="flex flex-row justify-between">
+        <button type="button" class="px-4 py-2 rounded-sm outline outline-1 outline-black hover:text-white hover:bg-black">
+          ADD TO CART
+          <i class="fa-solid fa-cart-plus ml-1"></i>
+        </button>
+        <button type="button" class="px-4 py-2 rounded-sm bg-orange-100 outline outline-1 outline-black hover:text-white hover:bg-black">
+          BUY NOW
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+  </section>
+</main>
