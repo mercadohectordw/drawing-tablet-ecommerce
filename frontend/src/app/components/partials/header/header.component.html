@@ -25,12 +25,12 @@
 
         <ul id="dropdownUserMenu" class="absolute z-10 right-0 w-full flex flex-row items-stretch gap-6 bg-white rounded-xl shadow-md overflow-hidden border-t-2 border-gray-100 text-center" style="display: none;">
           <li>
-            <a routerLink="/profile" class="block p-1.5 hover:bg-gray-100">
+            <a routerLink="/profile" (click)="dropdown()" class="block p-1.5 hover:bg-gray-100">
               Profile
             </a>
           </li>
           <li>
-            <a routerLink="/profile/options" class="block p-1.5 hover:bg-gray-100">
+            <a routerLink="/profile/options" (click)="dropdown()" class="block p-1.5 hover:bg-gray-100">
               Settings
             </a>
           </li>
