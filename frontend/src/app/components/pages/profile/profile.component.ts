@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Order } from 'src/app/models/Order';
 import { User } from 'src/app/models/User';
+import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,16 +13,18 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileComponent implements OnInit {
   
   user!: User;
+  orders!: Order[]; 
 
-  constructor(private userService:UserService, private router: Router) { }
+  constructor(private userService:UserService, private orderService: OrderService, private router: Router) { }
 
   ngOnInit(): void {
     let token = localStorage.getItem("token");
     if(token){
       this.userService.getUser(token).subscribe({
-        next: (res:User) => {
+        next: async(res:User) => {
           this.user = res;
-          console.log(this.user);
+          
+          if(token) await this.getOrders(token);
         },
         error: (err:any) => {
           localStorage.removeItem("token");
@@ -29,5 +33,17 @@ export class ProfileComponent implements OnInit {
     } else {
       this.router.navigateByUrl("/home");
     }
+  }
+
+  getOrders(token:string): void{
+    this.orderService.getUserOrders(token).subscribe({
+      next: (res: Order[]) => {
+        this.orders = res;
+        console.log(this.orders);
+      },
+      error: (err) => {
+
+      }
+    });
   }
 }
