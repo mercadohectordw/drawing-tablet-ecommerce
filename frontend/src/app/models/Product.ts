@@ -6,4 +6,5 @@ export class Product{
   main_image!: string;
   inventory!: number;
   category!: string;
+  images?: any[];
 }

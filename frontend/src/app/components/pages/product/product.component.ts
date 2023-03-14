@@ -11,15 +11,44 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductComponent implements OnInit {
 
   product!: Product;
+  images = new Array;
+  imageInView = "";
+  path: any;
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.productService.getProduct(this.route.snapshot.params['product_id'])
       .subscribe({
-        next: (res:any) => {
+        next: (res:Product) => {
           this.product = res;
-          console.log(this.product);
+          this.imageInView = this.product.main_image;
+          this.images = [{id:0, url:this.product.main_image}];
+          if(this.product.images){
+            this.images = this.images.concat(this.product.images);
+          }
+
+          switch(this.product.category){
+            case "Pen Tablet":
+              this.path = {
+                name: "Pen Tablets",
+                url: "/pen-tablets"
+              };
+              break;
+            case "Pen Display":
+              this.path = {
+                name: "Pen Displays",
+                url: "/pen-displays"
+              };
+              break;
+            case "Accessory":
+              this.path = {
+                name: "Accessories",
+                url: "/accessories"
+              };
+              break;
+            default: break;
+          }
         },
         error: (err:any) => {
           console.log(err);
@@ -28,4 +57,7 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  newImageInView(pos: number): void{
+    this.imageInView = this.images[pos].url;
+  }
 }
