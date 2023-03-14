@@ -1,1 +1,39 @@
-<p>prod-list works!</p>
+<main class="px-10">
+  <div class="my-4 flex flex-row justify-between">
+    <div>
+      <span class="text-sm">
+        <a routerLink="/home">Home</a> / {{path}}
+      </span>
+    </div>
+
+
+    <form (ngSubmit)="submitSort();" [formGroup]="sort" method="post">
+      <select id="sort" (change)="submitSort();" formControlName="by" class="bg-white">
+        <option value="">Sort by</option>
+        <option *ngFor="let s of sortby" [ngValue]="s">
+          {{s}}
+        </option>
+      </select>
+    </form>
+  </div>
+
+  <ul class="grid grid-cols-4 gap-4">
+    <li *ngFor="let p of productList" class="group h-64 rounded-sm hover:bg-orange-100 hover:outline hover:outline-orange-100">
+      <a routerLink="/product/{{p.id}}">
+        <img src="{{p.main_image}}" alt="{{p.name}}" class="object-contain h-40 px-2 w-full bg-white">
+      </a>
+      <div class="h-24 text-center">
+        <h2>
+          <a routerLink="/product/{{p.id}}">
+            {{p.name}}
+          </a>
+        </h2>
+        <p class="group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
+        <button type="button" class="group-hover:text-white group-hover:bg-neutral-800 group-hover:outline-white mx-auto mt-2 px-2 py-1 text-sm rounded outline outline-1 outline-orange-300">
+          ADD TO CART
+          <i class="fa-solid fa-cart-plus ml-1"></i>
+        </button>
+      </div>
+    </li>
+  </ul>
+</main>
