@@ -12,8 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
   
-  user!: User;
-  orders!: Order[]; 
+  user: User = new User;
+  orders: Order[] = new Array<Order>;
 
   constructor(private userService:UserService, private orderService: OrderService, private router: Router) { }
 
@@ -39,10 +39,9 @@ export class ProfileComponent implements OnInit {
     this.orderService.getUserOrders(token).subscribe({
       next: (res: Order[]) => {
         this.orders = res;
-        console.log(this.orders);
       },
       error: (err) => {
-
+        console.log(err);
       }
     });
   }

@@ -19,6 +19,7 @@
       <li *ngFor="let o of orders">
         <div class="rounded-lg shadow-lg outline outline-1 outline-neutral-300 p-4 flex flex-row items-center justify-between">
           <p>
+            ID: <span class="">{{o.id}}</span> <br>
             <i class="fa-solid fa-calendar"></i> Date: <span class="">{{o.created_at | date}}</span> <br>
             <i class="fa-solid fa-tag"></i> Total Price: <span class="">{{o.total | currency}}</span> <br>
             Delivered: {{o.shipped == 0 ? 'No' : 'Yes'}}
