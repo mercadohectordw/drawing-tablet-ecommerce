@@ -66,7 +66,7 @@ const getOrder = (req, res) => {
   db.query(query)
     .then(([rows]) => {
       let result = {
-        order_id : rows[0].order_id,
+        id : rows[0].order_id,
         total: Number(rows[0].total),
         created_at: rows[0].created_at,
         shipped: rows[0].shipped,
