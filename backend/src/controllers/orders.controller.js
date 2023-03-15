@@ -79,7 +79,7 @@ const getOrder = (req, res) => {
         shipping_address: {
           address_line: rows[0].address_line,
           city: rows[0].city,
-          privince: rows[0].privince,
+          privince: rows[0].province,
           country: rows[0].country,
           postal_code: rows[0].postal_code,
           mobile: rows[0].mobile
