@@ -56,8 +56,10 @@ export class RegisterComponent implements OnInit {
       next: (res:any) => {
         console.log(res);
         let signUpCompleted = document.getElementById("signUpCompleted");
+        let signUpForm = document.getElementById("signUpForm");
 
-        if(signUpCompleted != null){
+        if(signUpCompleted != null && signUpForm != null){
+          signUpForm.style.display = "none";
           signUpCompleted.style.display = "block";
         }
       },

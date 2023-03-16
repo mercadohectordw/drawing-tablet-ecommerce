@@ -1,11 +1,10 @@
-<div id="signUpCompleted" class="w-screen h-screen absolute z-10 flex items-center justify-center bg-black/30" style="display: none;">
-  <div class="">
-    Account Registered. Log in <a href="/login">here</a>
-  </div>
+<div id="signUpCompleted" class="my-24 text-center" style="display: none;">
+  Account Registered. Log in <a routerLink="/login" class="text-orange-400">here</a>!
 </div>
 
-<main class="w-96 mx-auto mt-2 mb-10 p-5 rounded-md outline outline-1 outline-neutral-300 shadow-md">
+<main id="signUpForm" class="w-96 mx-auto mt-2 mb-10 p-5 rounded-md outline outline-1 outline-neutral-300 shadow-md" style="display: block;">
   <h3>Create an account</h3>
+
 
   <form (ngSubmit)="submitForm();" [formGroup]="registerUser" method="post">
     <input type="text" formControlName="first_name" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="First Name">

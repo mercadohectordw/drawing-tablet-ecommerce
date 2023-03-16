@@ -38,11 +38,10 @@ export class OrderComponent implements OnInit {
     this.orderService.getOrder(token, order_id).subscribe({
       next: (res) => {
         this.order = res;
-        console.log(this.order);
-        
       },
       error: (err) => {
         console.log(err);
+        this.router.navigateByUrl("/profile");
       }
     });
   }
