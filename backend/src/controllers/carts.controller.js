@@ -39,17 +39,34 @@ const getCart = (req, res) => {
 }
 
 const addItem = (req, res) => {
-  let user = req.body.userId;
-  let product = req.params.productId;
+  let cart_id = req.body.userId; //el id del usuario es el mismo del carrito
+  let product_id = req.params.productId;
 
   let query = `
-    INSERT INTO cart_item (cart_id, product_id, quantity) VALUES
-    (${user}, ${product}, 1)
-  `;  //*el id de los carritos es igual al del sus usuarios
+    SELECT *
+    FROM cart_item
+    WHERE cart_id = ${cart_id} 
+    AND product_id = ${product_id}
+  `;
 
   db.query(query)
-    .then(([row]) => {
-      res.status(200).send({message:"The product was added"});
+    .then(([result]) => {
+      if(result.length == 0){
+        let query = `
+          INSERT INTO cart_item (cart_id, product_id, quantity) VALUES
+          (${cart_id}, ${product_id}, 1)
+        `;
+      
+        db.query(query)
+          .then(([row]) => {
+            res.status(200).send({message:"The product was added"});
+          })
+          .catch((err) => {
+            res.status(400).send({message:"Something went wrong"});
+          });
+      } else {
+        res.status(400).send({message:"The product is already in your cart"});
+      }
     })
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});

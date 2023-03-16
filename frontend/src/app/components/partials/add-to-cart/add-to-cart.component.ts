@@ -22,16 +22,21 @@ export class AddToCartComponent implements OnInit {
     if(token){
       this.userService.getUser(token).subscribe({
         next: async(res:any) => {
+
           if(token && this.product_id) {
             this.cartService.postCartItem(token, this.product_id).subscribe({
               next: (res:any) => {
-                this.router.navigateByUrl("/cart");
+                window.location.href = "/cart";
               },
               error: (err:any) => {
+                if( err.error.message == "The product is already in your cart"){
+                  window.location.href = "/cart";
+                }
                 console.log(err);
               }
             });
           }
+
         },
         error: (err:any) => {
           localStorage.removeItem("token");
