@@ -21,6 +21,7 @@ import { ContactComponent } from './components/pages/contact/contact.component';
 import { SearchComponent } from './components/pages/search/search.component';
 import { CartComponent } from './components/pages/cart/cart.component';
 import { BuyComponent } from './components/pages/buy/buy.component';
+import { AddToCartComponent } from './components/partials/add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { BuyComponent } from './components/pages/buy/buy.component';
     ContactComponent,
     SearchComponent,
     CartComponent,
-    BuyComponent
+    BuyComponent,
+    AddToCartComponent
   ],
   imports: [
     BrowserModule,

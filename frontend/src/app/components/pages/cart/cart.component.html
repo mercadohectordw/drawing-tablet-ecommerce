@@ -1,1 +1,59 @@
-<p>cart works!</p>
+<main class="p-10 pb-20">
+  <article class="max-w-2xl p-4 mx-auto rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+    <h2 class="text-xl mb-2">My Cart</h2>
+
+    <div *ngIf="cart.id == null" class="text-center">
+      <i class="fa-regular fa-circle-xmark fa-2x"></i><br>
+      <div>There are no products in your cart yet!</div>
+    </div>
+    
+    <div *ngIf="cart.id != null">
+      <ul>
+        <li *ngFor="let ci of cart.cart_items" class="mb-2 py-2 px-6 flex flex-row items-center gap-4 rounded-md border border-neutral-200">
+          <button type="button" (click)="deleteCartItem(ci.cart_item_id);" class="p-2 hover:text-red-500">
+            <i class="fa-solid fa-trash fa-xl"></i>
+          </button>
+  
+          <img src="{{ci.main_image}}" alt="{{ci.product_name}}" class="h-24 w-24 object-contain">
+          
+          <div class="grow flex flex-row items-center justify-between">
+            <div>
+              <h4 class="mb-1">{{ci.product_name}}</h4>
+            </div>
+  
+            <div class="flex flex-row items-center">
+              <div class="text-sm text-neutral-500">
+                Price: <span class="text-black text-base">{{ci.product_price | currency}}</span>
+              </div>
+  
+              <div class="border border-gray-300 h-8 mx-4"></div>
+  
+              <div class="text-sm text-neutral-500">
+                x
+                <select class="p-1 pl-2 bg-white text-black text-base outline outline-1 outline-neutral-400 rounded-lg">
+                  <option (click)="changeQuantity(ci.cart_item_id, 1);" [defaultSelected]="ci.quantity == 1">1</option>
+                  <option (click)="changeQuantity(ci.cart_item_id, 2);" [defaultSelected]="ci.quantity == 2">2</option>
+                  <option (click)="changeQuantity(ci.cart_item_id, 3);" [defaultSelected]="ci.quantity == 3">3</option>
+                  <option (click)="changeQuantity(ci.cart_item_id, 4);" [defaultSelected]="ci.quantity == 4">4</option>
+                  <option (click)="changeQuantity(ci.cart_item_id, 5);" [defaultSelected]="ci.quantity == 5">5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+  
+      <div class="mb-4 text-xl flex items-center gap-4">
+        <span>TOTAL</span>
+        <div class="h-[2px] grow my-4 bg-neutral-300"></div>
+        <span class="text-orange-400">{{totalPrice | currency}}</span>
+      </div>
+  
+      <div class="flex flex-row-reverse">
+        <a routerLink="/buy" class="px-4 py-2 rounded-lg bg-orange-300 text-white font-bold hover:bg-orange-400">
+          BUY CART
+        </a>
+      </div>
+    </div>
+  </article>
+</main>

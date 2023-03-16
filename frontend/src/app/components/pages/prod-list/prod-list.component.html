@@ -28,11 +28,9 @@
             {{p.name}}
           </a>
         </h2>
-        <p class="group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
-        <button type="button" class="group-hover:text-white group-hover:bg-neutral-800 group-hover:outline-white mx-auto mt-2 px-2 py-1 text-sm rounded outline outline-1 outline-orange-300">
-          ADD TO CART
-          <i class="fa-solid fa-cart-plus ml-1"></i>
-        </button>
+        <p class="mb-2 group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
+        
+        <app-add-to-cart [product_id]="p.id || 0"></app-add-to-cart>
       </div>
     </li>
   </ul>
