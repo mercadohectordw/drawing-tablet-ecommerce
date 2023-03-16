@@ -62,6 +62,23 @@ const getProductsByCategory = (req, res) => {
   });
 };
 
+const getProductsBySearch = (req, res) => {
+  let query = `
+    SELECT id, name, price, main_image, category_id, inventory
+    FROM product
+    WHERE name LIKE '%${req.params.q}%' OR
+    description LIKE '%${req.params.q}%'
+  `;
+
+  db.query(query)
+    .then(([rows]) => {
+      res.status(200).send(rows);
+    })
+    .catch((err) => {
+      res.status(400).send({message:"Something went wrong"});
+    });
+};
+
 const createProduct = (req, res) => {
   let body = req.body;
 
@@ -192,6 +209,7 @@ module.exports = {
   getAllProducts,
   getProduct,
   getProductsByCategory,
+  getProductsBySearch,
   createProduct,
   updateProduct,
   deleteProduct,
