@@ -2,10 +2,9 @@
   <div class="my-4 flex flex-row justify-between">
     <div>
       <span class="text-sm">
-        <a routerLink="/home">Home</a> / {{path}}
+        <a routerLink="/home">Home</a> / Search / "{{query}}"
       </span>
     </div>
-
 
     <form (ngSubmit)="submitSort();" [formGroup]="sort" method="post">
       <select id="sort" (change)="submitSort();" formControlName="by" class="bg-white">
@@ -15,6 +14,12 @@
         </option>
       </select>
     </form>
+  </div>
+
+  
+  <div *ngIf="productList.length == 0" class="text-center">
+    <i class="fa-regular fa-circle-xmark fa-2x"></i><br>
+    <div>No products were found for your search</div>
   </div>
 
   <ul class="grid grid-cols-4 gap-4">
@@ -28,9 +33,11 @@
             {{p.name}}
           </a>
         </h2>
-        <p class="mb-2 group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
-        
-        <app-add-to-cart [product_id]="p.id || 0"></app-add-to-cart>
+        <p class="group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
+        <button type="button" class="group-hover:text-white group-hover:bg-neutral-800 group-hover:outline-white mx-auto mt-2 px-2 py-1 text-sm rounded outline outline-1 outline-orange-300">
+          ADD TO CART
+          <i class="fa-solid fa-cart-plus ml-1"></i>
+        </button>
       </div>
     </li>
   </ul>

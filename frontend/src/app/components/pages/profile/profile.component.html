@@ -12,13 +12,21 @@
     </a>
   </section>
   
-  <section class="">
-    <h2 class="text-lg mb-4">My Orders</h2>
+  <section>
+    <div class="text-xl flex items-center gap-4 mb-4">
+      <h2 class="text-lg">MY ORDERS</h2>
+      <div class="h-[2px] grow my-4 bg-neutral-300"></div>
+    </div>
 
     <ul class="flex flex-col gap-4">
+      <div *ngIf="orders.length == 0" class="text-center">
+        <i class="fa-regular fa-circle-xmark fa-2x"></i><br>
+        <div>You don't have any purchase order yet!</div>
+      </div>
       <li *ngFor="let o of orders">
         <div class="rounded-lg shadow-lg outline outline-1 outline-neutral-300 p-4 flex flex-row items-center justify-between">
           <p>
+            ID: <span class="">{{o.id}}</span> <br>
             <i class="fa-solid fa-calendar"></i> Date: <span class="">{{o.created_at | date}}</span> <br>
             <i class="fa-solid fa-tag"></i> Total Price: <span class="">{{o.total | currency}}</span> <br>
             Delivered: {{o.shipped == 0 ? 'No' : 'Yes'}}

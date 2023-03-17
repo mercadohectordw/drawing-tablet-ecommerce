@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get("/", verifyTokenUser, getCart);
 router.post("/items/:productId", verifyTokenUser, verifyUserCart, addItem);
-router.put("/items/:cardItemId", verifyTokenUser, updateItem);
-router.delete("/items/:cardItemId", verifyTokenUser, deleteItem);
+router.put("/items/:cartItemId", verifyTokenUser, updateItem);
+router.delete("/items/:cartItemId", verifyTokenUser, deleteItem);
 
 router.get("/admin/", verifyTokenAdmin, );
 router.get("/admin/:userId", verifyTokenAdmin, );

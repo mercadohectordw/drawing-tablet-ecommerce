@@ -13,13 +13,23 @@ export class OrderService {
   
   constructor(private http:HttpClient) { }
 
-  getUserOrders(token:string) : Observable<any> {
+  getUserOrders(token:string): Observable<any> {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-type': 'application/json',
         authorization: 'Bearer ' + token
       })
     };
-    return this.http.get(this.api + "orders/user/", httpOptions);
+    return this.http.get<any>(this.api + "orders/user/", httpOptions);
   }
+
+  getOrder(token:string, order_id:number): Observable<any>{
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/json',
+        authorization: 'Bearer ' + token
+      })
+    };
+    return this.http.get<any>(this.api + "orders/user/" + order_id, httpOptions);
+  } 
 }

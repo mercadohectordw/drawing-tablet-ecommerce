@@ -15,6 +15,13 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
 import { ProductComponent } from './components/pages/product/product.component';
 import { LoginComponent } from './components/pages/login/login.component';
 import { RegisterComponent } from './components/pages/register/register.component';
+import { OrderComponent } from './components/pages/order/order.component';
+import { UserOptionsComponent } from './components/pages/user-options/user-options.component';
+import { ContactComponent } from './components/pages/contact/contact.component';
+import { SearchComponent } from './components/pages/search/search.component';
+import { CartComponent } from './components/pages/cart/cart.component';
+import { BuyComponent } from './components/pages/buy/buy.component';
+import { AddToCartComponent } from './components/partials/add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +34,14 @@ import { RegisterComponent } from './components/pages/register/register.componen
     PageNotFoundComponent,
     ProductComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    OrderComponent,
+    UserOptionsComponent,
+    ContactComponent,
+    SearchComponent,
+    CartComponent,
+    BuyComponent,
+    AddToCartComponent
   ],
   imports: [
     BrowserModule,

@@ -30,14 +30,8 @@
 
       <p class="my-4 text-neutral-600">{{product.description}}</p>
 
-      <div class="flex flex-row justify-between">
-        <button type="button" class="px-4 py-2 rounded-sm outline outline-1 outline-black hover:text-white hover:bg-black">
-          ADD TO CART
-          <i class="fa-solid fa-cart-plus ml-1"></i>
-        </button>
-        <button type="button" class="px-4 py-2 rounded-sm bg-orange-100 outline outline-1 outline-black hover:text-white hover:bg-black">
-          BUY NOW
-        </button>
+      <div class="flex flex-row-reverse justify-between">
+        <app-add-to-cart [product_id]="product.id || 0"></app-add-to-cart>
       </div>
     </div>
   </section>

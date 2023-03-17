@@ -10,12 +10,12 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductComponent implements OnInit {
 
-  product!: Product;
+  product = new Product;
   images = new Array;
   imageInView = "";
-  path: any;
+  path: any = {};
 
-  constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private productService: ProductService,  private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.productService.getProduct(this.route.snapshot.params['product_id'])
@@ -60,4 +60,6 @@ export class ProductComponent implements OnInit {
   newImageInView(pos: number): void{
     this.imageInView = this.images[pos].url;
   }
+
+
 }

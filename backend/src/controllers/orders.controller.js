@@ -53,7 +53,7 @@ const getAllOrders = (req, res) => {
 
 const getOrder = (req, res) => {
   let query = `
-    SELECT o.id as order_id, o.total, o.created_at, o.shipped, u.id as user_id, u.first_name, u.last_name, u.email,
+    SELECT o.id, o.total, o.created_at, o.shipped, u.id as user_id, u.first_name, u.last_name, u.email,
       oi.id as order_item_id, oi.quantity, oi.price_per_unit, p.id as product_id, p.name, p.main_image, sa.*
     FROM \`order\` o
       INNER JOIN users u ON o.user_id = u.id
@@ -66,7 +66,7 @@ const getOrder = (req, res) => {
   db.query(query)
     .then(([rows]) => {
       let result = {
-        order_id : rows[0].order_id,
+        id: rows[0].id,
         total: Number(rows[0].total),
         created_at: rows[0].created_at,
         shipped: rows[0].shipped,
@@ -79,7 +79,7 @@ const getOrder = (req, res) => {
         shipping_address: {
           address_line: rows[0].address_line,
           city: rows[0].city,
-          privince: rows[0].privince,
+          province: rows[0].province,
           country: rows[0].country,
           postal_code: rows[0].postal_code,
           mobile: rows[0].mobile

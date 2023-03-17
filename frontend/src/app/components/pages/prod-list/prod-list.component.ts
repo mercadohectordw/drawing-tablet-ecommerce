@@ -43,7 +43,6 @@ export class ProdListComponent implements OnInit {
       this.productService.getProductsByCategory(this.categoryId)
         .subscribe((res:any) => {
           this.productList = res;
-          console.log(this.productList);
         });
     } else {
       this.router.navigateByUrl("/page-not-found");
