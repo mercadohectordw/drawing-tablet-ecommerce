@@ -31,5 +31,15 @@ export class OrderService {
       })
     };
     return this.http.get<any>(this.api + "orders/user/" + order_id, httpOptions);
-  } 
+  }
+
+  submitOrder(token:string, body:any){
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/json',
+        authorization: 'Bearer ' + token
+      })
+    };
+    return this.http.post<any>(this.api + 'orders/user/', body, httpOptions);
+  }
 }

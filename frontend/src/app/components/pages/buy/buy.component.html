@@ -1,1 +1,93 @@
-<p>buy works!</p>
+<main class="p-10 pb-20 grid grid-cols-3 gap-4">
+  <section class="order-last p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+    <h2 class="text-xl mb-2">Purchase</h2>
+    <ul>
+      <li *ngFor="let p of cart.cart_items" class="mb-2 p-2 flex flex-row items-center gap-4 rounded-md border border-neutral-200">
+        <img src="{{p.main_image}}" alt="{{p.product_name}}" class="h-24 w-24 object-contain">
+        <div class="">
+          <h4 class="mb-1">{{p.product_name}}</h4>
+          <p class="text-sm text-neutral-500">
+            price: <span class="text-black text-base">{{p.product_price | currency}}</span> <br>
+            quantity: <span class="text-black text-base">{{p.quantity}}</span>
+          </p>
+        </div>
+      </li>
+    </ul>
+    <div class="text-base flex items-center gap-4">
+      <span>TOTAL</span>
+      <div class="h-[2px] grow my-4 bg-neutral-300"></div>
+      <span class="text-orange-400">{{totalPrice | currency}}</span>
+    </div>
+  </section>
+
+  <section class="col-span-2">
+    <div class="py-1 px-10 mb-2 text-lg flex items-center gap-4">
+      <span class="p-2 rounded-xl px-3 py-1" [ngClass]="step >= 1 ? step == 1 ? 'bg-green-200': 'text-green-600' : '' ">Shipping Address</span>
+      <div class="h-[2px] grow my-4 bg-neutral-300" [ngClass]="step >= 2 ? 'bg-green-200' : '' "></div>
+      <span class="p-2 rounded-xl px-3 py-1" [ngClass]="step >= 2 ? step == 2 ? 'bg-green-200': 'text-green-600' : '' ">Payment</span>
+      <div class="h-[2px] grow my-4 bg-neutral-300" [ngClass]="step >= 3 ? 'bg-green-200' : '' "></div>
+      <span class="p-2 rounded-xl px-3 py-1" [ngClass]="step >= 3 ? 'bg-green-200' : '' ">Confirmation</span>
+    </div>
+
+    <form (ngSubmit)="submitForm1();" [ngClass]="step != 1 ? 'hidden' : ''" [formGroup]="shippingAddress" method="post" class="p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+      <input type="text" formControlName="address_line" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Address">
+      <span *ngIf="shippingAddress.get('address_line')?.hasError('required') && shippingAddress.get('address_line')?.touched" class="text-xs text-red-500">Required</span>
+
+      <input type="text" formControlName="city" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="City">
+      <span *ngIf="shippingAddress.get('city')?.hasError('required') && shippingAddress.get('city')?.touched" class="text-xs text-red-500">Required</span>
+
+      <input type="text" formControlName="province" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Province">
+      <span *ngIf="shippingAddress.get('province')?.hasError('required') && shippingAddress.get('province')?.touched" class="text-xs text-red-500">Required</span>
+
+      <input type="text" formControlName="country" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Country">
+      <span *ngIf="shippingAddress.get('country')?.hasError('required') && shippingAddress.get('country')?.touched" class="text-xs text-red-500">Required</span>
+
+      <input type="text" formControlName="postal_code" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Postal_code">
+      <span *ngIf="shippingAddress.get('postal_code')?.hasError('required') && shippingAddress.get('postal_code')?.touched" class="text-xs text-red-500">Required</span>
+
+      <input type="text" formControlName="mobile" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Mobile">
+      <span *ngIf="shippingAddress.get('mobile')?.hasError('required') && shippingAddress.get('mobile')?.touched" class="text-xs text-red-500">Required</span>
+      
+      <div class="mt-4 flex flex-row-reverse">
+        <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md ml-2">Continue</button>
+        <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+      </div>
+    </form>
+
+    <form (ngSubmit)="submitForm2();"  [ngClass]="step != 2 ? 'hidden' : ''" class="p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+      <input type="text" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Card Number">
+      <input type="text" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Name on Card">
+      <input type="text" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Expiry Date">
+      <input type="text" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Security Code">
+
+      <div class="mt-4 flex flex-row-reverse">
+        <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md ml-2">Continue</button>
+        <button type="button" (click)="step = step - 1" class="bg-neutral-100 px-4 py-2 rounded-md ml-2">Volver</button>
+      </div>
+    </form>
+
+    <form (ngSubmit)="submitOrder();" [ngClass]="step != 3 ? 'hidden' : ''" class="p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+      <h2 class="text-xl mb-2">Shipping Address</h2>
+      <p class="text-sm">
+        Address Line: <span class="text-base">{{shippingAddress.get("address_line")?.value}}</span> <br>
+        City: <span class="text-base">{{shippingAddress.get("city")?.value}}</span> <br>
+        Province: <span class="text-base">{{shippingAddress.get("province")?.value}}</span> <br>
+        Country: <span class="text-base">{{shippingAddress.get("country")?.value}}</span> <br>
+        Postal Code: <span class="text-base">{{shippingAddress.get("postal_code")?.value}}</span> <br>
+        Mobile: <span class="text-base">{{shippingAddress.get("mobile")?.value}}</span> <br>
+      </p>
+
+      <hr class="my-4">
+      <h2 class="text-xl mb-2">Payment</h2>
+      <p class="text-sm">
+        Credit Card: <span class="text-base">**** **** **** 1234</span>
+      </p>
+
+      <div class="mt-4 flex flex-row-reverse items-center">
+        <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md ml-2">Continue</button>
+        <button type="button" (click)="step = step - 1" class="bg-neutral-100 px-4 py-2 rounded-md ml-2">Volver</button>
+        <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+      </div>
+    </form>
+  </section>
+</main>
