@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
 
   productList!: Product[];
   query!: string;
-  sortby = ["Price: Low to High", "Price: High to Low"];
+  sortby = ["Price: Low to High", "Price: High to Low", "Best Sellers"];
   sort: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private productService: ProductService, private route: ActivatedRoute) {
@@ -42,7 +42,10 @@ export class SearchComponent implements OnInit {
         this.productList.sort((prodA: Product, prodB: Product) => prodA.price - prodB.price);
       }
       if(this.sort.get("by")?.value == "Price: High to Low"){
-        this.productList.sort((prodA: Product, prodB: Product) => prodA.price + prodB.price);
+        this.productList.sort((prodA: Product, prodB: Product) => prodB.price - prodA.price);
+      }
+      if(this.sort.get("by")?.value == "Best Sellers"){
+        this.productList.sort((prodA: Product, prodB: Product) => prodB.sales - prodA.sales);
       }
     }
   }

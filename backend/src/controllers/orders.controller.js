@@ -1,4 +1,5 @@
 const {db} = require('../db');
+const { updateProductInventoryAndSales } = require('./products.controller');
 
 const getUserOrders = (req, res) => {
   let query = `
@@ -152,7 +153,7 @@ const postOrderItems = async(items, order_id) => {
 
   for(let i of items) {
     query = query + `(${order_id}, ${i.product_id}, ${i.quantity}, ${i.price_per_unit}),`;
-    await updateProductInventory(i.product_id, i.inventoryOfProduct-i.quantity);
+    await updateProductInventoryAndSales(i.product_id, i.quantity);
   }
   query = query.slice(0,-1);
 
@@ -160,19 +161,6 @@ const postOrderItems = async(items, order_id) => {
     .then(([row]) => {
       return;
     })
-};
-
-const updateProductInventory = (product_id, newInventory) => {
-  let query = `
-    UPDATE product
-    SET inventory = ${newInventory}
-    WHERE id = ${product_id}
-  `;
-
-  db.query(query)
-    .then(([row]) => {
-      return;
-    });
 };
 
 const deleteCart = (cart_id) => {

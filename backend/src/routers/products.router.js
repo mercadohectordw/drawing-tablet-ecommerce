@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { verifyTokenAdmin } = require('../middleware/authorization');
 const { productValidation } = require('../middleware/validation');
-const { getAllProducts, getProduct, getProductsByCategory, createProduct, updateProduct, deleteProduct, postNewProductImage, deleteOldProductImage, getProductsBySearch } = require('../controllers/products.controller');
+const { getAllProducts, getProduct, getProductsByCategory, createProduct, updateProduct, deleteProduct, postNewProductImage, deleteOldProductImage, getProductsBySearch, getTheTopThreeBestSellers } = require('../controllers/products.controller');
 
+router.get("/best", getTheTopThreeBestSellers);
 router.get("/category/:categoryId", getProductsByCategory);
 router.get("/search/:q", getProductsBySearch);
 router.get("/:productId", getProduct);

@@ -1,5 +1,5 @@
-<main class="p-10 pb-20">
-  <section class="relative aspect-[3/1] mb-24 grid grid-cols-3 rounded-2xl shadow bg-orange-200 overflow-hidden">
+<main class="px-20 pt-12 pb-24">
+  <article class="relative aspect-[3/1] mb-20 grid grid-cols-3 rounded-2xl shadow bg-orange-200 overflow-hidden">
     <div class="p-8">
       <h2 class="text-2xl font-bold mb-4">Exploit your creativity</h2>
       <p class="">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad vitae blanditiis quia, similique, modi odit.</p>
@@ -11,9 +11,9 @@
     </div>
 
     <img src="https://files.catbox.moe/20bypq.avif" alt="See our Pen Tablets" class="col-span-2 object-cover">
-  </section>
+  </article>
 
-  <section class="relative aspect-[3/1] mb-24 grid grid-cols-3 rounded-2xl shadow bg-orange-200 overflow-hidden">
+  <article class="relative aspect-[3/1] mb-20 grid grid-cols-3 rounded-2xl shadow bg-orange-200 overflow-hidden">
     <img src="https://files.catbox.moe/8css2r.avif" alt="See our Pen Displays" class="col-span-2 object-cover">
     
     <div class="p-8">
@@ -25,5 +25,27 @@
         </a>
       </div>
     </div>
+  </article>
+
+  <section class="text-center mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Our best selling products </h2>
+
+    <ul class="grid grid-cols-3 gap-4">
+      <li *ngFor="let p of products" class="group h-64 rounded-sm hover:bg-orange-100 hover:outline hover:outline-orange-100">
+        <a routerLink="/product/{{p.id}}">
+          <img src="{{p.main_image}}" alt="{{p.name}}" class="object-contain h-40 px-2 w-full bg-white">
+        </a>
+        <div class="h-24 text-center">
+          <h2>
+            <a routerLink="/product/{{p.id}}">
+              {{p.name}}
+            </a>
+          </h2>
+          <p class="mb-2 group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
+          
+          <app-add-to-cart [product_id]="p.id || 0"></app-add-to-cart>
+        </div>
+      </li>
+    </ul>
   </section>
 </main>

@@ -1,8 +1,25 @@
 const {db} = require('../db');
 
+const getTheTopThreeBestSellers = (req, res) => {
+  let query = `
+    SELECT id, name, price, main_image, category_id, inventory, sales
+    FROM product
+    ORDER BY sales DESC
+    LIMIT 3
+  `;
+
+  db.query(query)
+    .then(([rows]) => {
+      res.status(200).send(rows);
+    })
+    .catch((err) => {
+      res.status(400).send({message:"Something went wrong"});
+    });
+};
+
 const getAllProducts = (req, res) => {
   let query = `
-    SELECT id, name, price, main_image, category_id, inventory
+    SELECT id, name, price, main_image, category_id, inventory, sales
     FROM product
   `;
 
@@ -17,7 +34,7 @@ const getAllProducts = (req, res) => {
 
 const getProduct = (req, res) => {
   let query = `
-    SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, c.name as category
+    SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, p.sales , c.name as category
     FROM product p LEFT JOIN category c ON p.category_id = c.id
     WHERE p.id = ${req.params.productId}
   `;
@@ -48,7 +65,7 @@ const getProduct = (req, res) => {
 
 const getProductsByCategory = (req, res) => {
   let query = `
-  SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, c.name as category
+  SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, p.sales, c.name as category
   FROM product p LEFT JOIN category c ON p.category_id = c.id
   WHERE c.id = ${req.params.categoryId}
   `;
@@ -64,7 +81,7 @@ const getProductsByCategory = (req, res) => {
 
 const getProductsBySearch = (req, res) => {
   let query = `
-    SELECT id, name, price, main_image, category_id, inventory
+    SELECT id, name, price, main_image, category_id, inventory, sales
     FROM product
     WHERE name LIKE '%${req.params.q}%' OR
     description LIKE '%${req.params.q}%'
@@ -203,9 +220,22 @@ const deleteAllProductImages = (product_id) => {
     });
 };
 
+const updateProductInventoryAndSales = (product_id, sales) => {
+  let query = `
+    UPDATE product
+    SET inventory = inventory - ${sales}, sales = sales + ${sales} 
+    WHERE id = ${product_id}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      return;
+    });
+};
 
 
 module.exports = {
+  getTheTopThreeBestSellers,
   getAllProducts,
   getProduct,
   getProductsByCategory,
@@ -214,5 +244,7 @@ module.exports = {
   updateProduct,
   deleteProduct,
   postNewProductImage,
-  deleteOldProductImage
+  deleteOldProductImage,
+
+  updateProductInventoryAndSales
 };
