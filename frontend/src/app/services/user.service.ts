@@ -27,6 +27,18 @@ export class UserService {
     return this.http.get<any>(this.api + 'users/profile/', httpOptions);
   }
 
+  getUserForAdmin(token:string, user_id:number): Observable<any>{
+    let httpOptions = this.generateHeader(token);
+
+    return this.http.get<any>(this.api + 'users/admin/' + user_id, httpOptions);
+  }
+
+  getAllUsersForAdmin(token:string, page:number): Observable<any>{
+    let httpOptions = this.generateHeader(token);
+
+    return this.http.get<any>(this.api + 'users/' + page, httpOptions);
+  }
+
   updateUser(token:string, userData:any): Observable<any>{
     let httpOptions = this.generateHeader(token);
 
@@ -43,6 +55,19 @@ export class UserService {
     let httpOptions = this.generateHeader(token);
 
     return this.http.get<any>(this.api + 'users/admin/dashboard', httpOptions);
+  }
+
+
+  postAdmin(token:string, user_id:number): Observable<any>{
+    let httpOptions = this.generateHeader(token);
+
+    return this.http.post<any>(this.api + 'users/admin/' + user_id, {}, httpOptions);
+  }
+
+  deleteAdmin(token:string, user_id:number): Observable<any>{
+    let httpOptions = this.generateHeader(token);
+
+    return this.http.delete<any>(this.api + 'users/admin/' + user_id, httpOptions);
   }
 
   generateHeader(token:string): any{

@@ -1,1 +1,49 @@
-<p>admin-users works!</p>
+<section class="p-8">
+  <nav class="my-4">
+    <ul class="flex flex-row justify-center gap-2">
+      <li *ngFor="let item of [].constructor(numPages); let i = index">
+        <a routerLink="/admin/users" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
+      </li>
+    </ul>
+  </nav>
+
+  <ul class="flex flex-col gap-4">
+    <li *ngFor="let u of users" class="flex flex-row items-center gap-2 rounded-lg shadow-md outline outline-1 outline-neutral-300 p-4" [ngClass]="u.admin == 1 ? 'bg-orange-50' : ''">
+      <div class="mx-4 text-center">
+        <i class="fa-regular fa-user fa-3x text-neutral-800"></i>
+        <br>{{u.admin == 1 ? 'ADMIN' : ''}}
+      </div>
+
+      <div class="grow">
+        <h2 class="mb-2 text-lg">
+          <a routerLink="/admin/users/{{u.id}}">
+            <span class="text-neutral-500 text-base">User ID {{u.id}} - </span>
+            {{u.first_name}} {{u.last_name}}
+          </a>
+        </h2>
+
+        <div class="text-sm text-neutral-500">
+          <div>
+            Email: <span class="text-black text-base">{{u.email}}</span>
+          </div>
+          <p>
+            Date: <span class="text-black text-base">{{u.created_at | date:"fullDate"}}</span> <br>
+            Hour: <span class="text-black text-base">{{u.created_at | date:"longTime"}}</span>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <a routerLink="/admin/users/{{u.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md hover:outline-2">Details</a>
+      </div>
+    </li>
+  </ul>
+
+  <nav class="my-4">
+    <ul class="flex flex-row justify-center gap-2">
+      <li *ngFor="let item of [].constructor(numPages); let i = index">
+        <a routerLink="/admin/orders" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
+      </li>
+    </ul>
+  </nav>
+</section>
