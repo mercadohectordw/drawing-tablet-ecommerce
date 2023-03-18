@@ -1,4 +1,5 @@
 const {db} = require('../db');
+const { updateProductInventoryAndSales } = require('./products.controller');
 
 const getUserOrders = (req, res) => {
   let query = `
@@ -37,14 +38,33 @@ const createOrderFromUser = (req, res) => {
 };
 
 const getAllOrders = (req, res) => {
+  let itemsByPage = 10;
   let query = `
     SELECT o.*, u.first_name, u.last_name, u.email
-    FROM \`order\` o INNER JOIN users u ON o.user_id = u.id
+    FROM \`order\` o LEFT JOIN users u ON o.user_id = u.id
+    ORDER BY o.created_at DESC
+    LIMIT ${(req.params.page-1) * itemsByPage}, ${itemsByPage}
   `;
 
   db.query(query)
     .then(([rows]) => {
-      res.status(200).send(rows);
+      let query = `
+        SELECT COUNT(*) AS q
+        FROM \`order\`
+      `;
+    
+      db.query(query)
+        .then(([r]) => {
+          let amount = r[0].q / itemsByPage;
+          let result = {
+            pages: Math.ceil(amount),
+            rows: rows
+          };
+          res.status(200).send(result);
+        })
+        .catch((err) => {
+          res.status(400).send({message:"Something went wrong"});
+        });
     })
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
@@ -152,7 +172,7 @@ const postOrderItems = async(items, order_id) => {
 
   for(let i of items) {
     query = query + `(${order_id}, ${i.product_id}, ${i.quantity}, ${i.price_per_unit}),`;
-    await updateProductInventory(i.product_id, i.inventoryOfProduct-i.quantity);
+    await updateProductInventoryAndSales(i.product_id, i.quantity);
   }
   query = query.slice(0,-1);
 
@@ -160,19 +180,6 @@ const postOrderItems = async(items, order_id) => {
     .then(([row]) => {
       return;
     })
-};
-
-const updateProductInventory = (product_id, newInventory) => {
-  let query = `
-    UPDATE product
-    SET inventory = ${newInventory}
-    WHERE id = ${product_id}
-  `;
-
-  db.query(query)
-    .then(([row]) => {
-      return;
-    });
 };
 
 const deleteCart = (cart_id) => {

@@ -1,0 +1,59 @@
+<section class="p-8">
+  <nav class="my-4">
+    <ul class="flex flex-row justify-center gap-2">
+      <li *ngFor="let item of [].constructor(numPages); let i = index">
+        <a routerLink="/admin/orders" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
+      </li>
+    </ul>
+  </nav>
+
+  <ul class="flex flex-col gap-4">
+    <li *ngFor="let o of orders" class="rounded-lg shadow-md outline outline-1 outline-neutral-300 p-4">
+
+      <div>
+        <h2 class="mb-4 text-lg">
+          <a routerLink="/admin/orders/{{o.id}}">
+            Purchase Order nº {{o.id}} - 
+            <span class="text-neutral-500 text-base">{{o.first_name}} {{o.last_name}}</span>
+          </a>
+        </h2>
+
+        <div class="flex flex-row items-center justify-between">
+          <p class="text-sm text-neutral-500">
+            Date: <span class="text-black text-base">{{o.created_at | date:"fullDate"}}</span> <br>
+            Hour: <span class="text-black text-base">{{o.created_at | date:"longTime"}}</span>
+          </p>
+
+          <div>
+            <span *ngIf="o.shipped == 0">
+              Not delivered yet
+            </span>
+            <span *ngIf="o.shipped != 0" class="text-green-600">
+              Delivered
+              <i class="fa-solid fa-circle-check fa-xl"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="my-4">
+
+      <div class="flex flex-row items-center justify-between">
+        <span class="text-sm text-neutral-500">
+          TOTAL: 
+          <span class="font-bold text-base text-black">{{o.total | currency}}</span>
+        </span>
+
+        <a routerLink="/admin/orders/{{o.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md">Details</a>
+      </div>
+    </li>
+  </ul>
+
+  <nav class="my-4">
+    <ul class="flex flex-row justify-center gap-2">
+      <li *ngFor="let item of [].constructor(numPages); let i = index">
+        <a routerLink="/admin/orders" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
+      </li>
+    </ul>
+  </nav>
+</section>

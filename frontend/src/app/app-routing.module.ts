@@ -13,6 +13,13 @@ import { OrderComponent } from './components/pages/order/order.component';
 import { CartComponent } from './components/pages/cart/cart.component';
 import { BuyComponent } from './components/pages/buy/buy.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
+import { AdminComponent } from './components/pages/admin/admin.component';
+import { AdminUsersComponent } from './components/pages/admin-users/admin-users.component';
+import { AdminProductsComponent } from './components/pages/admin-products/admin-products.component';
+import { AdminOrdersComponent } from './components/pages/admin-orders/admin-orders.component';
+import { AdminOrderDetailComponent } from './components/pages/admin-order-detail/admin-order-detail.component';
+import { AdminProductDetailComponent } from './components/pages/admin-product-detail/admin-product-detail.component';
+import { AdminUserDetailComponent } from './components/pages/admin-user-detail/admin-user-detail.component';
 
 const routes: Routes = [
   {path: "home", component: HomeComponent},
@@ -31,6 +38,15 @@ const routes: Routes = [
   
   {path: "cart", component: CartComponent},
   {path: "buy", component: BuyComponent},
+
+  {path: "admin", component: AdminComponent, children:[
+    {path: "users", component: AdminUsersComponent},
+    {path: "users/:user_id", component: AdminUserDetailComponent},
+    {path: "products", component: AdminProductsComponent},
+    {path: "products/:product_id", component: AdminProductDetailComponent},
+    {path: "orders", component: AdminOrdersComponent},
+    {path: "orders/:order_id", component: AdminOrderDetailComponent}
+  ]},
   
   {path: "page-not-found", component: PageNotFoundComponent},
   {path: "", redirectTo: "home", pathMatch: 'full'},

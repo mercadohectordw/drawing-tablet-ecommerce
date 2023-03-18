@@ -33,6 +33,7 @@ CREATE TABLE `product`(
     `main_image` VARCHAR(255),
     `category_id` INT NOT NULL,
     `inventory` INT NOT NULL,
+    `sales` INT NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)    
 );

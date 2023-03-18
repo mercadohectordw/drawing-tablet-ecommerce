@@ -2,7 +2,7 @@ const {db} = require('../db');
 
 const getOrderData = (req, res, next) => {
   let query = `
-    SELECT c.id as cart_item_id, c.product_id, c.quantity, p.price as price_per_unit, p.inventory as inventoryOfProduct
+    SELECT c.id as cart_item_id, c.product_id, c.quantity, p.name, p.price as price_per_unit, p.inventory as inventoryOfProduct
     FROM cart_item c INNER JOIN product p ON c.product_id = p.id
     WHERE c.cart_id = ${req.body.userId}
   `;
@@ -17,7 +17,7 @@ const getOrderData = (req, res, next) => {
 
       for(let i of rows){
         if(i.quantity > i.inventoryOfProduct){
-          return res.status(400).send({message:"Sorry, we don't have enough stock"});
+          return res.status(400).send({message:`Sorry, we don't have enough stock of ${i.name}`});
         }
 
         total += i.quantity * i.price_per_unit;
