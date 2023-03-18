@@ -6,7 +6,7 @@ const verifyTokenUser = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader || authHeader === 'null'){
-    return res.status(403).send({message:'User UnAuthorized'});
+    return res.status(403).send({message:'Invalid Token'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
     return res.status(400).send({message:'Invalid Token'});
@@ -15,7 +15,7 @@ const verifyTokenUser = (req, res, next) => {
   let token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
     if(err){
-      return res.status(403).send({message:'User UnAuthorized'});
+      return res.status(403).send({message:'Invalid Token'});
     }
 
     req = Object.assign(req.body, { userId : user.userId}); //guarda el usuario en req.body
@@ -28,7 +28,7 @@ const verifyTokenAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader || authHeader === 'null'){
-    return res.status(403).send({message:'User UnAuthorized'});
+    return res.status(403).send({message:'Invalid Token'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
     return res.status(400).send({message:'Invalid Token'});
@@ -37,7 +37,7 @@ const verifyTokenAdmin = (req, res, next) => {
   let token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
     if(err){
-      return res.status(403).send({message:'User UnAuthorized'});
+      return res.status(403).send({message:'Invalid Token'});
     }
 
     let query = `

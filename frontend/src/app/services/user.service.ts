@@ -22,35 +22,35 @@ export class UserService {
   }
 
   getUser(token:string): Observable<any>{
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-type': 'application/json',
-        authorization: 'Bearer ' + token
-      })
-    };
+    let httpOptions = this.generateHeader(token);
 
     return this.http.get<any>(this.api + 'users/profile/', httpOptions);
   }
 
   updateUser(token:string, userData:any): Observable<any>{
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-type': 'application/json',
-        authorization: 'Bearer ' + token
-      })
-    };
+    let httpOptions = this.generateHeader(token);
 
     return this.http.put<any>(this.api + 'users/update', userData, httpOptions);
   }
 
   updateUserPassword(token:string, newPassword:any): Observable<any>{
-    let httpOptions = {
+    let httpOptions = this.generateHeader(token);
+
+    return this.http.put<any>(this.api + 'users/update/password', newPassword, httpOptions);
+  }
+
+  getAdminDashboard(token:string): Observable<any>{
+    let httpOptions = this.generateHeader(token);
+
+    return this.http.get<any>(this.api + 'users/admin/dashboard', httpOptions);
+  }
+
+  generateHeader(token:string): any{
+    return {
       headers: new HttpHeaders({
         'Content-type': 'application/json',
         authorization: 'Bearer ' + token
       })
     };
-
-    return this.http.put<any>(this.api + 'users/update/password', newPassword, httpOptions);
   }
 }

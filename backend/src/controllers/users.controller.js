@@ -189,6 +189,27 @@ const deleteAdmin = (req, res) => {
     });
 }
 
+const getDashboard = (req, res) => {
+  let query = `
+    SELECT
+      (SELECT COUNT(*) FROM users) AS users,
+      (SELECT COUNT(*) FROM product) AS products,
+      (SELECT COUNT(*) FROM \`order\`) AS orders,
+      (SELECT COUNT(*) FROM \`order\` WHERE created_at > NOW() - INTERVAL 7 DAY ) AS last_7_days_orders,
+      (SELECT COUNT(*) FROM users WHERE MONTH(created_at) = MONTH(CURRENT_TIMESTAMP) AND YEAR(created_at) = YEAR(CURRENT_TIMESTAMP)) AS this_month_users,
+      (SELECT COUNT(*) FROM \`order\` WHERE MONTH(created_at) = MONTH(CURRENT_TIMESTAMP) AND YEAR(created_at) = YEAR(CURRENT_TIMESTAMP)) AS this_month_orders
+    FROM DUAL;
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      res.status(200).send(row[0]);
+    })
+    .catch((err) => {
+      res.status(400).send({message:"Something went wrong"});
+    });
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -197,5 +218,7 @@ module.exports = {
   updateUserData,
   updateUserPassword,
   assignNewAdmin,
-  deleteAdmin
+  deleteAdmin,
+
+  getDashboard
 }

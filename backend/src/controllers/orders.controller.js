@@ -38,14 +38,33 @@ const createOrderFromUser = (req, res) => {
 };
 
 const getAllOrders = (req, res) => {
+  let itemsByPage = 10;
   let query = `
     SELECT o.*, u.first_name, u.last_name, u.email
-    FROM \`order\` o INNER JOIN users u ON o.user_id = u.id
+    FROM \`order\` o LEFT JOIN users u ON o.user_id = u.id
+    ORDER BY o.created_at DESC
+    LIMIT ${(req.params.page-1) * itemsByPage}, ${itemsByPage}
   `;
 
   db.query(query)
     .then(([rows]) => {
-      res.status(200).send(rows);
+      let query = `
+        SELECT COUNT(*) AS q
+        FROM \`order\`
+      `;
+    
+      db.query(query)
+        .then(([r]) => {
+          let amount = r[0].q / itemsByPage;
+          let result = {
+            pages: Math.ceil(amount),
+            rows: rows
+          };
+          res.status(200).send(result);
+        })
+        .catch((err) => {
+          res.status(400).send({message:"Something went wrong"});
+        });
     })
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});

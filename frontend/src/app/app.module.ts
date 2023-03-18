@@ -22,6 +22,13 @@ import { SearchComponent } from './components/pages/search/search.component';
 import { CartComponent } from './components/pages/cart/cart.component';
 import { BuyComponent } from './components/pages/buy/buy.component';
 import { AddToCartComponent } from './components/partials/add-to-cart/add-to-cart.component';
+import { AdminComponent } from './components/pages/admin/admin.component';
+import { AdminUsersComponent } from './components/pages/admin-users/admin-users.component';
+import { AdminProductsComponent } from './components/pages/admin-products/admin-products.component';
+import { AdminOrdersComponent } from './components/pages/admin-orders/admin-orders.component';
+import { AdminOrderDetailComponent } from './components/pages/admin-order-detail/admin-order-detail.component';
+import { AdminProductDetailComponent } from './components/pages/admin-product-detail/admin-product-detail.component';
+import { AdminUserDetailComponent } from './components/pages/admin-user-detail/admin-user-detail.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +48,14 @@ import { AddToCartComponent } from './components/partials/add-to-cart/add-to-car
     SearchComponent,
     CartComponent,
     BuyComponent,
-    AddToCartComponent
+    AddToCartComponent,
+    AdminComponent,
+    AdminUsersComponent,
+    AdminProductsComponent,
+    AdminOrdersComponent,
+    AdminOrderDetailComponent,
+    AdminProductDetailComponent,
+    AdminUserDetailComponent
   ],
   imports: [
     BrowserModule,

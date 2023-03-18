@@ -1,0 +1,82 @@
+<main class="p-10 pb-20 grid grid-cols-3 gap-4">
+  <aside class="text-xs flex flex-col gap-8">
+    <div>
+      <h2 class="text-base my-2">Orders</h2>
+      <ul class="grid grid-cols-2 gap-2">
+        <li class="w-full rounded-md aspect-video p-2 flex flex-col items-center justify-center shadow-md outline outline-1 outline-neutral-200">
+          <div class="text-center text-neutral-500">
+            Orders in the last 7 days<br>
+            <span class="text-2xl text-black"><i class="fa-solid fa-cart-shopping text-neutral-700 text-lg"></i> {{dashboard.last_7_days_orders}}</span>
+          </div>
+        </li>
+        <li class="w-full rounded-md aspect-video p-2 flex flex-col items-center justify-center shadow-md outline outline-1 outline-neutral-200">
+          <div class="text-center text-neutral-500">
+            Orders in this month <br>
+            <span class="text-2xl text-black"><i class="fa-solid fa-cart-shopping text-neutral-700 text-lg"></i> {{dashboard.this_month_orders}}</span>
+          </div>
+        </li>
+        <li class="w-full rounded-md aspect-video p-2 flex flex-col items-center justify-center shadow-md outline outline-1 outline-neutral-200">
+          <div class="text-center text-neutral-500">
+            Orders in total <br>
+            <span class="text-2xl text-black"><i class="fa-solid fa-cart-shopping text-neutral-700 text-lg"></i> {{dashboard.orders}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-base my-2">Users</h2>
+      <ul class="grid grid-cols-2 gap-2">
+        <li class="w-full rounded-md aspect-video p-2 flex flex-col items-center justify-center shadow-md outline outline-1 outline-neutral-200">
+          <div class="text-center text-neutral-500">
+            Registered Users this month <br>
+            <span class="text-2xl text-black"><i class="fa-solid fa-user text-neutral-700 text-lg"></i> {{dashboard.this_month_users}}</span>
+          </div>
+        </li>
+        <li class="w-full rounded-md aspect-video p-2 flex flex-col items-center justify-center shadow-md outline outline-1 outline-neutral-200">
+          <div class="text-center text-neutral-500">
+            Users in total <br>
+            <span class="text-2xl text-black"><i class="fa-solid fa-user text-neutral-700 text-lg"></i> {{dashboard.users}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-base my-2">Products</h2>
+      <ul class="grid grid-cols-2 gap-2">
+        <li class="w-full rounded-md aspect-video p-2 flex flex-col items-center justify-center shadow-md outline outline-1 outline-neutral-200">
+          <div class="text-center text-neutral-500">
+            Products in total<br>
+            <span class="text-2xl text-black"><i class="fa-solid fa-tag text-neutral-700 text-lg"></i> {{dashboard.products}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <section class="col-span-2">
+    <ul class="flex flex-row justify-center">
+      <li>
+        <a routerLink="/admin/orders" class="block py-2 px-3 rounded-md" routerLinkActive="bg-orange-100">
+          <i class="fa-solid fa-cart-shopping"></i>
+          Orders
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/products" class="block py-2 px-3 rounded-md" routerLinkActive="bg-orange-100">
+          <i class="fa-solid fa-tag"></i>
+          Products
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/users" class="block py-2 px-3 rounded-md" routerLinkActive="bg-orange-100">
+          <i class="fa-solid fa-user"></i>
+          Users
+        </a>
+      </li>
+    </ul>
+
+    <router-outlet></router-outlet>
+  </section>
+</main>
