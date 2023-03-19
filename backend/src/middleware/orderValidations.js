@@ -47,12 +47,33 @@ const verifyOrderBelongsToUser = (req, res, next) => {
       next();
     })
     .catch((err) => {
-      console.log(2);
+      return res.status(400).send({message:"Something went wrong"})
+    });
+};
+
+const verifyThatTheProductHasNoSales = (req, res, next) => {
+  let product_id = req.params.productId;
+
+  let query = `
+    SELECT COUNT(*) AS q
+    FROM order_item
+    WHERE product_id = ${product_id}
+  `;
+
+  db.query(query)
+    .then(([row]) => {
+      if(row[0].q != 0){
+        return res.status(400).send({message:"The product has sales"});
+      }
+      next();
+    })
+    .catch((err) => {
       return res.status(400).send({message:"Something went wrong"})
     });
 };
 
 module.exports = {
   getOrderData,
-  verifyOrderBelongsToUser
+  verifyOrderBelongsToUser,
+  verifyThatTheProductHasNoSales
 };

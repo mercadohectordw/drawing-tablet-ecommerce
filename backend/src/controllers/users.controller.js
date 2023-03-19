@@ -42,7 +42,7 @@ const registerUser = (req, res) => {
       console.log("Failed to create a new user: \n" + err);
       res.status(400).send({message:"Something went wrong"});
     });
-}
+};
 
 const loginUser = (req, res) => {
   let logData = req.body;
@@ -96,22 +96,65 @@ const getUser = (req, res) => {
     });
 };
 
-const getAllUsers = (req, res) => {
+const getUserForAdmin = (req, res) => {
+  let user = req.params.userId;
+
   let query = `
-    SELECT u.id, u.first_name, u.last_name, u.email, u.created_at, 
-    CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS \`admin\`
-    FROM users u LEFT JOIN admin a ON u.id = a.user_id
+    SELECT id, first_name, last_name, email, created_at, EXISTS(SELECT * FROM admin WHERE user_id = ${user}) as \`admin\`,
+    (SELECT COUNT(*) FROM cart_item ci WHERE ci.cart_id = ${user}) AS items_in_cart
+    FROM users
+    WHERE id = ${user}
   `;
 
   db.query(query)
     .then(([row]) => {
       let result = JSON.parse(JSON.stringify(row));
-      res.status(200).json(result);
+
+      if(result.length <= 0) {
+        res.status(404).send({message:"User not found"});
+      } else {
+        res.status(200).json(result[0]); 
+      }
     })
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
     });
-}
+};
+
+const getAllUsers = (req, res) => {
+  let itemsByPage = 10;
+  let query = `
+    SELECT u.id, u.first_name, u.last_name, u.email, u.created_at, 
+    CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS \`admin\`
+    FROM users u LEFT JOIN admin a ON u.id = a.user_id
+    ORDER BY u.created_at DESC
+    LIMIT ${(req.params.page-1) * itemsByPage}, ${itemsByPage}
+  `;
+
+  db.query(query)
+    .then(([rows]) => {
+      let query = `
+        SELECT COUNT(*) AS q
+        FROM users
+      `;
+
+      db.query(query)
+        .then(([r]) => {
+          let amount = r[0].q / itemsByPage;
+          let result = {
+            pages: Math.ceil(amount), 
+            rows: rows
+          };
+          res.status(200).send(result);
+        })
+        .catch((err) => {
+          res.status(400).send({message:"Something went wrong"});
+        })
+    })
+    .catch((err) => {
+      res.status(400).send({message:"Something went wrong"});
+    });
+};
 
 const updateUserData = (req, res) => {
   let userData = req.body;
@@ -129,7 +172,7 @@ const updateUserData = (req, res) => {
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
     });
-}
+};
 
 const updateUserPassword = (req, res) => {
   let userData = req.body;
@@ -149,11 +192,11 @@ const updateUserPassword = (req, res) => {
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
     });
-}
+};
 
 const assignNewAdmin = (req, res) => {
   if(req.body.userId == req.params.userId){
-    return res.status(400).send({message:"Something went wrong. That's your account!"});
+    return res.status(200).send({message:"That's your account!"});
   }
 
   let query = `
@@ -187,7 +230,7 @@ const deleteAdmin = (req, res) => {
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
     });
-}
+};
 
 const getDashboard = (req, res) => {
   let query = `
@@ -208,12 +251,13 @@ const getDashboard = (req, res) => {
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
     });
-}
+};
 
 module.exports = {
   registerUser,
   loginUser,
   getUser,
+  getUserForAdmin,
   getAllUsers,
   updateUserData,
   updateUserPassword,
@@ -221,4 +265,4 @@ module.exports = {
   deleteAdmin,
 
   getDashboard
-}
+};

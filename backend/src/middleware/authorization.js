@@ -9,7 +9,7 @@ const verifyTokenUser = (req, res, next) => {
     return res.status(403).send({message:'Invalid Token'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
-    return res.status(400).send({message:'Invalid Token'});
+    return res.status(403).send({message:'Invalid Token'});
   }
 
   let token = authHeader.split(" ")[1];
@@ -31,7 +31,7 @@ const verifyTokenAdmin = (req, res, next) => {
     return res.status(403).send({message:'Invalid Token'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
-    return res.status(400).send({message:'Invalid Token'});
+    return res.status(403).send({message:'Invalid Token'});
   }
 
   let token = authHeader.split(" ")[1];
