@@ -1,1 +1,109 @@
-<p>admin-products works!</p>
+<section class="p-8">
+  <div class="mb-4 flex flex-row-reverse">
+    <button (click)="toggleModal();" type="button" class="inline-block px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50">
+      Create New 
+    </button>
+  </div>
+
+  <ul class="flex flex-col gap-4">
+    <li *ngFor="let p of products" [ngClass]="p.active == 0 ? 'opacity-50 hover:opacity-100' :''" class="flex flex-row items-center gap-2 rounded-lg shadow-md outline outline-1 outline-neutral-300 p-4">
+      <div class="w-1/5 mx-4 text-center">
+        <img src="{{p.main_image}}" alt="{{p.name}}" class="w-full aspect-square object-contain">
+      </div>
+
+      <div class="grow">
+        <h2 class="mb-2 text-lg">
+          <a routerLink="/admin/products/{{p.id}}">
+            <span class="text-neutral-500 text-base">Product ID {{p.id}} - </span>
+            {{p.name}}
+          </a>
+        </h2>
+
+        <div class="text-sm text-neutral-400">
+          <p class="text-lg text-black">{{p.active == 0 ? 'Disabled Product' : ''}}</p>
+          <p>
+            Category: <span class="text-base text-black">{{p.category}}</span><br>
+            Price: <span class="text-base text-black">{{p.price | currency}}</span><br>
+            Inventory: <span class="text-base text-black mr-4">{{p.inventory}}</span> 
+            Sales: <span class="text-base text-black">{{p.sales}}</span>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <a routerLink="/admin/products/{{p.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md hover:outline-2">Details</a>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<div id="modalCreateNew" class="fixed z-20 top-0 left-0 right-0 bottom-0 bg-black/50 items-center justify-center" style="display: none;">
+  <div class="max-w-lg max-h-[90vh] overflow-auto p-4 bg-white rounded-md shadow-lg">
+    <div class="mb-4 flex flex-row items-center justify-between">
+      <h2>Create New Product</h2>
+      <button (click)="toggleModal();" type="button" class="w-8 h-8 flex items-center justify-center">
+        <i class="fa-solid fa-xmark fa-xl"></i>
+      </button>
+    </div>
+    
+    <form (ngSubmit)="submitForm();" [formGroup]="registerProduct" method="post">
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-name" class="w-44 text-neutral-400 text-sm">Name:</label>
+        <input id="pf-name" type="text" formControlName="name" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-category" class="w-44 text-neutral-400 text-sm">Category:</label>
+        <select id="pf-category" formControlName="category_id" class="bg-white mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+          <option value=1>Pen Tablet</option>
+          <option value=2>Pen Display</option>
+          <option value=3>Accesories</option>
+        </select>
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-description" class="w-44 text-neutral-400 text-sm">Description:</label>
+        <textarea id="pf-description" formControlName="description" rows="1" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300"></textarea>
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-price" class="w-44 text-neutral-400 text-sm">Price:</label>
+        <input id="pf-price" type="text" formControlName="price" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-inventory" class="w-44 text-neutral-400 text-sm">Inventory:</label>
+        <input id="pf-inventory" type="text" formControlName="inventory" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-image" class="w-44 text-neutral-400 text-sm">Main Image (url):</label>
+        <input id="pf-image" type="text" formControlName="main_image" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+
+      <hr class="my-4">
+
+      <div formArrayName="images">
+        <div class="flex flex-row items-center justify-between">
+          <h3>Secundary Images:</h3>
+
+          <button type="button" (click)="addImage();" class="px-2 py-1.5 rounded-full shadow">
+            <i class="fa-solid fa-plus fa-lg"></i>
+          </button>
+        </div>
+
+        <div *ngFor="let i of images.controls; let index = index" class="flex flex-row items-baseline gap-2">
+          <label for="pf-image-{{index}}" class="w-44 text-neutral-400 text-sm">Image (url):</label>
+          <input id="pf-image-{{index}}" type="text" [formControlName]="index" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md mr-2">Submit Product</button>
+        <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+      </div>
+    </form>
+  </div>
+</div>

@@ -4,6 +4,7 @@ const getTheTopThreeBestSellers = (req, res) => {
   let query = `
     SELECT id, name, price, main_image, category_id, inventory, sales
     FROM product
+    WHERE active = 1
     ORDER BY sales DESC
     LIMIT 3
   `;
@@ -19,8 +20,8 @@ const getTheTopThreeBestSellers = (req, res) => {
 
 const getAllProducts = (req, res) => {
   let query = `
-    SELECT id, name, price, main_image, category_id, inventory, sales
-    FROM product
+    SELECT p.id, p.name, p.price, p.main_image, p.inventory, p.sales, c.name as category, p.active
+    FROM product p LEFT JOIN category c ON p.category_id = c.id
   `;
 
   db.query(query)
@@ -33,14 +34,18 @@ const getAllProducts = (req, res) => {
 };
 
 const getProduct = (req, res) => {
+  let active = req.body.userId == null  ? "AND active = 1" : "";
   let query = `
-    SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, p.sales , c.name as category
+    SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, p.sales , c.name as category, p.active
     FROM product p LEFT JOIN category c ON p.category_id = c.id
-    WHERE p.id = ${req.params.productId}
+    WHERE p.id = ${req.params.productId} ${active}
   `;
 
   db.query(query)
     .then(([row]) => {
+      if(row.length == 0){
+        return res.status(400).send({message:"Product not found"});
+      }
 
       //busca imagenes del producto
       let query2 = `
@@ -56,7 +61,6 @@ const getProduct = (req, res) => {
         .catch((err) => {
           res.status(400).send({message:"Something went wrong"});
         });
-
     })
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
@@ -65,9 +69,9 @@ const getProduct = (req, res) => {
 
 const getProductsByCategory = (req, res) => {
   let query = `
-  SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, p.sales, c.name as category
-  FROM product p LEFT JOIN category c ON p.category_id = c.id
-  WHERE c.id = ${req.params.categoryId}
+    SELECT p.id, p.name, p.description, p.price, p.main_image, p.inventory, p.sales, c.name as category, p.active
+    FROM product p LEFT JOIN category c ON p.category_id = c.id
+    WHERE p.active = 1 AND c.id = ${req.params.categoryId}
   `;
   
   db.query(query)
@@ -83,8 +87,9 @@ const getProductsBySearch = (req, res) => {
   let query = `
     SELECT id, name, price, main_image, category_id, inventory, sales
     FROM product
-    WHERE name LIKE '%${req.params.q}%' OR
-    description LIKE '%${req.params.q}%'
+    WHERE active = 1 AND 
+    (name LIKE '%${req.params.q}%' OR
+    description LIKE '%${req.params.q}%')
   `;
 
   db.query(query)
@@ -134,6 +139,22 @@ const updateProduct = (req, res) => {
     .catch((err) => {
       res.status(400).send({message:"Something went wrong"});
     });
+};
+
+const changeProductVisibility = (req, res) => {
+  let query = `
+    UPDATE product
+    SET active = ${req.body.active}
+    WHERE id = ${req.params.productId}
+  `;
+
+  db.query(query)
+  .then(([row]) => {
+    res.status(200).send({message:"Product updated"});
+  })
+  .catch((err) => {
+    res.status(400).send({message:"Something went wrong"})
+  });
 };
 
 const deleteProduct = async(req, res) => {
@@ -242,6 +263,7 @@ module.exports = {
   getProductsBySearch,
   createProduct,
   updateProduct,
+  changeProductVisibility,
   deleteProduct,
   postNewProductImage,
   deleteOldProductImage,

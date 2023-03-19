@@ -29,11 +29,12 @@ CREATE TABLE `product`(
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `description` VARCHAR(1023),
-    `price` DECIMAL(10, 0) NOT NULL,
+    `price` DECIMAL(8, 2) NOT NULL,
     `main_image` VARCHAR(255),
     `category_id` INT NOT NULL,
     `inventory` INT NOT NULL,
     `sales` INT NOT NULL DEFAULT 0,
+    `active` TINYINT NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)    
 );
@@ -66,7 +67,7 @@ CREATE TABLE `cart_item` (
 CREATE TABLE `order` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL,
-    `total` DECIMAL(10, 0) NOT NULL,
+    `total` DECIMAL(8, 2) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `shipped` BOOLEAN NOT NULL,
     PRIMARY KEY (`id`),
@@ -78,7 +79,7 @@ CREATE TABLE `order_item` (
     `order_id` INT NOT NULL, 
 	`product_id` INT NOT NULL, 
     `quantity` INT NOT NULL,
-    `price_per_unit` DECIMAL(10, 0) NOT NULL,
+    `price_per_unit` DECIMAL(8, 2) NOT NULL,
 	PRIMARY KEY (`id`),
     FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
     FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)

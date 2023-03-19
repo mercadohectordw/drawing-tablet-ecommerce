@@ -8,4 +8,5 @@ export class Product{
   sales!: number;
   category!: string;
   images?: any[];
+  active?: number;
 }

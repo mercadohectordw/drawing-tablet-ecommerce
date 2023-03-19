@@ -1,1 +1,142 @@
-<p>admin-product-detail works!</p>
+<section class="p-8">
+  <div *ngIf="errorDeleteMessage != ''" class="fixed z-20 bottom-4 right-4 p-4 rounded bg-red-200">
+    {{errorDeleteMessage}}
+  </div>
+
+  <div class="mb-4 flex flex-row justify-between text-sm">
+    <div>
+      <a routerLink="/admin/products" class="inline-block px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50">
+        <i class="fa-solid fa-angle-left mr-1"></i> Volver
+      </a>
+    </div>
+    
+    <div>
+      <div class="inline-block mr-4">
+        <button (click)="deleteProduct();" type="button" class="inline-block px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50 hover:text-red-700">
+          <i class="fa-solid fa-trash mr-1"></i> Delete Product
+        </button>
+      </div>
+      <div class="inline-block">
+        <button *ngIf="product.active == 0" (click)="changeVisibility(1);" type="button" class="px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50">
+          <i class="fa-solid fa-eye mr-1"></i> Enable for users
+        </button>
+        <button *ngIf="product.active != 0" (click)="changeVisibility(0);" type="button" class="px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50">
+          <i class="fa-solid fa-eye-slash mr-1"></i> Disable for users
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <article class="p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+
+    <div class="grid grid-cols-4 items-center gap-4">
+      <img src="{{product.main_image}}" alt="{{product.name}}" class="w-full aspect-square object-contain">
+
+      <div class="col-span-2">
+        <h2 class="text-xl text-black mb-2">Product ID {{product.id}} <br>{{product.name}}</h2>
+        <span class="text-black text-base">{{product.category}}</span>
+        <div class="text-black text-xl">{{product.active == 0 ? 'DISABLED': ''}}</div>
+      </div>
+
+      <div class="mx-4 text-sm">
+        <div>
+          <button (click)="toggleModal();" type="button" class="w-full text-center px-4 py-2 rounded-lg bg-orange-50 shadow outline outline-1 outline-neutral-200 hover:bg-orange-100">
+            <i class="fa-solid fa-pen-to-square mr-1"></i> EDIT
+          </button>
+        </div>
+        <p class="mt-2 text-neutral-400">
+          <span class="text-xl text-black">{{product.price | currency}}</span> <br>
+          Inventory: <span class="text-black text-base">{{product.inventory}}</span> <br>
+          Sales: <span class="text-black text-base">{{product.sales}}</span> <br>
+        </p>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div>
+      <h3 class="text-lg mb-2">Description</h3>
+      <p class="text-neutral-700">{{product.description}}</p>
+    </div>
+
+    <hr class="my-4">
+
+    <ul>
+      <div class="mb-4 flex items-center justify-between">
+        <h3 class="text-lg">Secundary Images</h3>
+        <form (ngSubmit)="addImage();" [formGroup]="newSecImage" method="post" class="flex items-center gap-4">
+          <input type="text" formControlName="url" placeholder="URL" class="w-48 px-2 py-1.5 outline outline-1 outline-neutral-200 rounded-md">
+
+          <button type="submit" class="px-2 py-1.5 rounded-full shadow">
+            <i class="fa-solid fa-plus fa-lg"></i>
+          </button>
+        </form>
+      </div>
+
+      <li *ngFor="let i of product.images" class="grid grid-cols-4 gap-4 items-center">
+        <img src="{{i.url}}" alt="Secondary Image" class="w-full aspect-square object-contain">
+        <div class="col-span-2 text-sm text-neutral-500">
+          <span>{{i.url}}</span>
+        </div>
+        <div class="flex flex-row-reverse">
+          <button type="button" (click)="deleteImage(i.id);" class="p-1 hover:text-red-500">
+            <i class="fa-solid fa-trash fa-xl"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </article>
+</section>
+
+<div id="modalCreateNew" class="fixed z-20 top-0 left-0 right-0 bottom-0 bg-black/50 items-center justify-center" style="display: none;">
+  <div class="max-w-lg max-h-[90vh] overflow-auto p-4 bg-white rounded-md shadow-lg">
+    <div class="mb-4 flex flex-row items-center justify-between">
+      <h2>Create New Product</h2>
+      <button (click)="toggleModal();" type="button" class="w-8 h-8 flex items-center justify-center">
+        <i class="fa-solid fa-xmark fa-xl"></i>
+      </button>
+    </div>
+    
+    <form (ngSubmit)="submitForm();" [formGroup]="editProduct" method="post">
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-name" class="w-44 text-neutral-400 text-sm">Name:</label>
+        <input id="pf-name" type="text" formControlName="name" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-category" class="w-44 text-neutral-400 text-sm">Category:</label>
+        <select id="pf-category" formControlName="category_id" class="bg-white mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+          <option value=1>Pen Tablet</option>
+          <option value=2>Pen Display</option>
+          <option value=3>Accesories</option>
+        </select>
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-description" class="w-44 text-neutral-400 text-sm">Description:</label>
+        <textarea id="pf-description" formControlName="description" rows="1" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300"></textarea>
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-price" class="w-44 text-neutral-400 text-sm">Price:</label>
+        <input id="pf-price" type="text" formControlName="price" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-inventory" class="w-44 text-neutral-400 text-sm">Inventory:</label>
+        <input id="pf-inventory" type="text" formControlName="inventory" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="flex flex-row items-baseline gap-2">
+        <label for="pf-image" class="w-44 text-neutral-400 text-sm">Main Image (url):</label>
+        <input id="pf-image" type="text" formControlName="main_image" class="mt-2 px-3 py-1 w-full rounded border border-neutral-300">
+      </div>
+
+      <div class="mt-4">
+        <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md mr-2">Submit Product</button>
+        <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+      </div>
+    </form>
+  </div>
+</div>

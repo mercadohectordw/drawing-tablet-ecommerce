@@ -25,7 +25,6 @@ export class AdminUserDetailComponent implements OnInit {
           if(token){
             this.token = token;
             this.user = res;
-            console.log(this.user);
           }
         },
         error: (err:any) => {
