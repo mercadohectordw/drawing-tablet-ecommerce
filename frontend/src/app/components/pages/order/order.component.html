@@ -1,15 +1,14 @@
-<main class="p-10 pb-20">
+<main class="px-4 sm:px-10 pt-10 pb-20">
   <div>
     <a routerLink="/profile" class="absolute px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow">
-      <i class="fa-solid fa-angle-left mr-2"></i>
-      Volver a Perfil
+      <i class="fa-solid fa-angle-left mr-1"></i> Back
     </a>
   </div>
   
-  <article class="max-w-2xl p-4 mx-auto rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+  <article class="mt-16 lg:mt-0 max-w-2xl p-2 sm:p-4 mx-auto rounded-lg outline outline-1 outline-neutral-200 shadow-md">
     <div class="">
       <h2 class="text-2xl mb-4">Purchase Order nº {{order.id}}</h2>
-      <div class="flex flex-row items-center justify-between">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
         <p class="text-sm text-neutral-500">
           Date: <span class="text-black text-base">{{order.created_at | date:"fullDate"}}</span> <br>
           Hour: <span class="text-black text-base">{{order.created_at | date:"longTime"}}</span>
@@ -24,7 +23,7 @@
 
     <div>
       <h3 class="text-lg mb-1">Shipping Address</h3>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
         <p class="text-sm text-neutral-500">
           Address line: <span class="text-black text-base">{{order.shipping_address.address_line}}</span> <br>
           City: <span class="text-black text-base">{{order.shipping_address.city}}</span> <br>
@@ -45,8 +44,8 @@
       
       <ul>
         <li *ngFor="let p of order.items" class="mb-2 p-2 flex flex-row items-center gap-4 rounded-md border border-neutral-200">
-          <img src="{{p.product_img}}" alt="{{p.product_name}}" class="h-24 w-24 object-contain">
-          <div class="">
+          <img src="{{p.product_img}}" alt="{{p.product_name}}" class="h-16 w-16 xs:h-24 xs:w-24 object-contain">
+          <div>
             <h4 class="mb-1">{{p.product_name}}</h4>
             <p class="text-sm text-neutral-500">
               price per unit: <span class="text-black text-base">{{p.price_per_unit | currency}}</span> <br>

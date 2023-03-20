@@ -1,4 +1,4 @@
-<section class="p-8">
+<section>
   <div *ngIf="errorDeleteMessage != ''" class="fixed z-20 bottom-4 right-4 p-4 rounded bg-red-200">
     {{errorDeleteMessage}}
   </div>
@@ -6,14 +6,14 @@
   <div class="mb-4 flex flex-row justify-between text-sm">
     <div>
       <a routerLink="/admin/products" class="inline-block px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50">
-        <i class="fa-solid fa-angle-left mr-1"></i> Volver
+        <i class="fa-solid fa-angle-left mr-1"></i> Back
       </a>
     </div>
     
-    <div>
-      <div class="inline-block mr-4">
+    <div class="flex flex-col xs:flex-row items-end gap-2">
+      <div class="inline-block">
         <button (click)="deleteProduct();" type="button" class="inline-block px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50 hover:text-red-700">
-          <i class="fa-solid fa-trash mr-1"></i> Delete Product
+          <i class="fa-solid fa-trash mr-1"></i> Delete
         </button>
       </div>
       <div class="inline-block">
@@ -27,20 +27,21 @@
     </div>
   </div>
 
-  <article class="p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
-
-    <div class="grid grid-cols-4 items-center gap-4">
-      <img src="{{product.main_image}}" alt="{{product.name}}" class="w-full aspect-square object-contain">
-
-      <div class="col-span-2">
-        <h2 class="text-xl text-black mb-2">Product ID {{product.id}} <br>{{product.name}}</h2>
-        <span class="text-black text-base">{{product.category}}</span>
-        <div class="text-black text-xl">{{product.active == 0 ? 'DISABLED': ''}}</div>
+  <article class="p-2 sm:p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+    <div class="grid grid-cols-1 sm:grid-cols-3 sm:items-center gap-4">
+      <div class="sm:col-span-2 flex flex-col-reverse sm:flex-row gap-4">
+        <img src="{{product.main_image}}" alt="{{product.name}}" class="mx-auto max-w-[300px] w-full sm:w-1/3 aspect-square object-contain">
+  
+        <div class="sm:w-2/3">
+          <h2 class="text-xl text-black mb-2">Product ID {{product.id}} <br>{{product.name}}</h2>
+          <span class="text-black text-base">{{product.category}}</span>
+          <div class="text-black text-xl">{{product.active == 0 ? 'DISABLED': ''}}</div>
+        </div>
       </div>
 
-      <div class="mx-4 text-sm">
+      <div class="text-sm flex flex-col-reverse sm:block">
         <div>
-          <button (click)="toggleModal();" type="button" class="w-full text-center px-4 py-2 rounded-lg bg-orange-50 shadow outline outline-1 outline-neutral-200 hover:bg-orange-100">
+          <button (click)="toggleModal();" type="button" class="mt-2 sm:mt-0 w-full text-center px-4 py-2 rounded-lg bg-orange-50 shadow outline outline-1 outline-neutral-200 hover:bg-orange-100">
             <i class="fa-solid fa-pen-to-square mr-1"></i> EDIT
           </button>
         </div>
@@ -62,10 +63,10 @@
     <hr class="my-4">
 
     <ul>
-      <div class="mb-4 flex items-center justify-between">
-        <h3 class="text-lg">Secundary Images</h3>
+      <div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between">
+        <h3 class="text-lg mb-2 sm:mb-0">Secundary Images</h3>
         <form (ngSubmit)="addImage();" [formGroup]="newSecImage" method="post" class="flex items-center gap-4">
-          <input type="text" formControlName="url" placeholder="URL" class="w-48 px-2 py-1.5 outline outline-1 outline-neutral-200 rounded-md">
+          <input type="text" formControlName="url" placeholder="URL" class="w-full px-2 py-1.5 outline outline-1 outline-neutral-200 rounded-md">
 
           <button type="submit" class="px-2 py-1.5 rounded-full shadow">
             <i class="fa-solid fa-plus fa-lg"></i>
@@ -75,7 +76,7 @@
 
       <li *ngFor="let i of product.images" class="grid grid-cols-4 gap-4 items-center">
         <img src="{{i.url}}" alt="Secondary Image" class="w-full aspect-square object-contain">
-        <div class="col-span-2 text-sm text-neutral-500">
+        <div class="col-span-2 text-xs text-neutral-500">
           <span>{{i.url}}</span>
         </div>
         <div class="flex flex-row-reverse">

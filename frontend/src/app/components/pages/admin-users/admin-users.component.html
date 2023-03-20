@@ -1,6 +1,7 @@
-<section class="p-8">
+<section>
   <nav class="my-4">
-    <ul class="flex flex-row justify-center gap-2">
+    <ul class="flex flex-row items-center justify-center gap-2">
+      <li class="text-sm text-neutral-400">Pages:</li>
       <li *ngFor="let item of [].constructor(numPages); let i = index">
         <a routerLink="/admin/users" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
       </li>
@@ -8,17 +9,19 @@
   </nav>
 
   <ul class="flex flex-col gap-4">
-    <li *ngFor="let u of users" class="flex flex-row items-center gap-2 rounded-lg shadow-md outline outline-1 outline-neutral-300 p-4" [ngClass]="u.admin == 1 ? 'bg-orange-50' : ''">
-      <div class="mx-4 text-center">
+    <li *ngFor="let u of users" class="flex flex-row items-center gap-2 rounded-lg shadow-md outline outline-1 outline-neutral-300 p-2 sm:p-4" [ngClass]="u.admin == 1 ? 'bg-orange-50' : ''">
+      <div class="mx-2 sm:mx-4 text-center text-xs">
         <i class="fa-regular fa-user fa-3x text-neutral-800"></i>
-        <br>{{u.admin == 1 ? 'ADMIN' : ''}}
+        <br>{{u.admin == 1 ? 'ADMIN' : 'USER'}}
       </div>
 
       <div class="grow">
         <h2 class="mb-2 text-lg">
           <a routerLink="/admin/users/{{u.id}}">
             <span class="text-neutral-500 text-base">User ID {{u.id}} - </span>
-            {{u.first_name}} {{u.last_name}}
+            <span class="inline-block">
+              {{u.first_name}} {{u.last_name}}
+            </span>
           </a>
         </h2>
 
@@ -31,18 +34,23 @@
             Hour: <span class="text-black text-base">{{u.created_at | date:"longTime"}}</span>
           </p>
         </div>
+
+        <div class="sm:hidden inline-block mt-2">
+          <a routerLink="/admin/users/{{u.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md hover:outline-2">Details</a>
+        </div>
       </div>
 
-      <div>
+      <div class="hidden sm:block">
         <a routerLink="/admin/users/{{u.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md hover:outline-2">Details</a>
       </div>
     </li>
   </ul>
 
   <nav class="my-4">
-    <ul class="flex flex-row justify-center gap-2">
+    <ul class="flex flex-row items-center justify-center gap-2">
+      <li class="text-sm text-neutral-400">Pages:</li>
       <li *ngFor="let item of [].constructor(numPages); let i = index">
-        <a routerLink="/admin/orders" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
+        <a routerLink="/admin/users" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
       </li>
     </ul>
   </nav>
