@@ -1,4 +1,4 @@
-<main class="p-10 pb-20 grid grid-cols-2 gap-4">
+<main class="px-4 sm:px-10 lg:px-20 pt-10 pb-20 grid grid-cols-1 sm:grid-cols-2 gap-4">
   <section class="text-center py-4">
     <i class="fa-solid fa-user-tie fa-8x"></i>
     <h2 class="mt-8 mb-5 text-2xl">{{user.first_name}} {{user.last_name}}</h2>
@@ -25,14 +25,17 @@
       </div>
       <li *ngFor="let o of orders">
         <div class="rounded-lg shadow-lg outline outline-1 outline-neutral-300 p-4 flex flex-row items-center justify-between">
-          <p>
-            ID: <span class="">{{o.id}}</span> <br>
-            <i class="fa-solid fa-calendar"></i> Date: <span class="">{{o.created_at | date}}</span> <br>
-            <i class="fa-solid fa-tag"></i> Total Price: <span class="">{{o.total | currency}}</span> <br>
-            Delivered: {{o.shipped == 0 ? 'No' : 'Yes'}}
-          </p>
+          <div>
+            <h3 class="text-lg">ID: <span class="font-bold">{{o.id}}</span></h3>
+  
+            <p class="text-neutral-500 text-sm">
+              <i class="fa-solid fa-calendar"></i> Date: <span class="text-base text-black">{{o.created_at | date}}</span> <br>
+              <i class="fa-solid fa-tag"></i> Total Price: <span class="text-base text-black">{{o.total | currency}}</span> <br>
+              <span class="text-base" [ngClass]="o.shipped == 1 ? 'text-green-500' : 'text-black' ">Delivered: {{o.shipped == 0 ? 'No' : 'Yes'}}</span>
+            </p>
+          </div>
           <a routerLink="/profile/orders/{{o.id}}" class="px-4 py-2 outline outline-1 outline-black rounded-md hover:bg-neutral-800 hover:text-white">
-            See Details
+            Details
           </a>
         </div>
       </li>

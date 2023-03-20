@@ -1,33 +1,39 @@
-<div id="signUpCompleted" class="my-24 text-center" style="display: none;">
-  Account Registered. Log in <a routerLink="/login" class="text-orange-400">here</a>!
-</div>
+<main class="px-4 sm:px-10 lg:px-20 pt-10 pb-20">
+  <div id="signUpCompleted" class="text-center" style="display: none;">
+    Account Registered. Log in <a routerLink="/login" class="text-orange-400">here</a>!
+  </div>
 
-<main id="signUpForm" class="w-96 mx-auto mt-2 mb-10 p-5 rounded-md outline outline-1 outline-neutral-300 shadow-md" style="display: block;">
-  <h3>Create an account</h3>
+  <div id="signUpForm" class="max-w-[24rem] mx-auto p-3 sm:p-5 rounded-md outline outline-1 outline-neutral-300 shadow-md" style="display: block;">
+    <h2>Create an account</h2>
+  
+    <form (ngSubmit)="submitForm();" [formGroup]="registerUser" method="post">
+      <input type="text" formControlName="first_name" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="First Name">
+      <span *ngIf="registerUser.get('first_name')?.hasError('required') && registerUser.get('first_name')?.touched" class="text-xs text-red-500">The first name is required</span>
+  
+      <input type="text" formControlName="last_name" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Last Name">
+      <span *ngIf="registerUser.get('last_name')?.hasError('required') && registerUser.get('last_name')?.touched" class="text-xs text-red-500">The last name is required</span>
+      
+      <input type="text" formControlName="email" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Email">
+      <span *ngIf="registerUser.get('email')?.hasError('required') && registerUser.get('email')?.touched" class="text-xs text-red-500">The email is required</span>
+      <span *ngIf="registerUser.get('email')?.hasError('email') && registerUser.get('email')?.touched" class="text-xs text-red-500">The email is invalid</span>
+      
+      <input type="password" formControlName="password" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Password">
+      <span *ngIf="registerUser.get('password')?.hasError('required') && registerUser.get('password')?.touched" class="text-xs text-red-500">The password is required</span>
+      <span *ngIf="registerUser.get('password')?.hasError('pattern') && registerUser.get('password')?.touched" class="text-xs text-red-500">The password must have a minimum of 8 characters and a maximum of 16 characters</span>
+      
+      
+      <input type="password" formControlName="confirm_password" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Confirm Password">
+      <span *ngIf="registerUser.get('confirm_password')?.hasError('required') && registerUser.get('confirm_password')?.touched" class="text-xs text-red-500">This is required</span>
+      <span *ngIf="registerUser.get('password')?.value != registerUser.get('confirm_password')?.value && registerUser.get('confirm_password')?.touched" class="text-xs text-red-500">The passwords are not the same</span>
+  
+      <div class="mt-4">
+        <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md mr-2">Sign Up</button>
+        <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+      </div>
+    </form>
 
-  <form (ngSubmit)="submitForm();" [formGroup]="registerUser" method="post">
-    <input type="text" formControlName="first_name" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="First Name">
-    <span *ngIf="registerUser.get('first_name')?.hasError('required') && registerUser.get('first_name')?.touched" class="text-xs text-red-500">The first name is required</span>
-
-    <input type="text" formControlName="last_name" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Last Name">
-    <span *ngIf="registerUser.get('last_name')?.hasError('required') && registerUser.get('last_name')?.touched" class="text-xs text-red-500">The last name is required</span>
-    
-    <input type="text" formControlName="email" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Email">
-    <span *ngIf="registerUser.get('email')?.hasError('required') && registerUser.get('email')?.touched" class="text-xs text-red-500">The email is required</span>
-    <span *ngIf="registerUser.get('email')?.hasError('email') && registerUser.get('email')?.touched" class="text-xs text-red-500">The email is invalid</span>
-    
-    <input type="password" formControlName="password" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Password">
-    <span *ngIf="registerUser.get('password')?.hasError('required') && registerUser.get('password')?.touched" class="text-xs text-red-500">The password is required</span>
-    <span *ngIf="registerUser.get('password')?.hasError('pattern') && registerUser.get('password')?.touched" class="text-xs text-red-500">The password must have a minimum of 8 characters and a maximum of 16 characters</span>
-    
-    
-    <input type="password" formControlName="confirm_password" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Confirm Password">
-    <span *ngIf="registerUser.get('confirm_password')?.hasError('required') && registerUser.get('confirm_password')?.touched" class="text-xs text-red-500">This is required</span>
-    <span *ngIf="registerUser.get('password')?.value != registerUser.get('confirm_password')?.value && registerUser.get('confirm_password')?.touched" class="text-xs text-red-500">The passwords are not the same</span>
-
-    <div class="mt-4">
-      <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md mr-2">Sign Up</button>
-      <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
+    <div class="text-xs mt-4">
+      Do you already have an account? <a routerLink="/login" class="text-orange-400">You can login here</a>
     </div>
-  </form>
+  </div>
 </main>

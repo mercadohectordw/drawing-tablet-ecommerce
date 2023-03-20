@@ -1,5 +1,5 @@
-<main class="p-10 pb-20 grid grid-cols-3 gap-4">
-  <section class="order-last p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+<main class="px-4 sm:px-10 lg:px-20 pt-10 pb-20 grid grid-cols-1 lg:grid-cols-3 lg:gap-4">
+  <section class="mb-4 lg:mb-0 lg:order-last p-2 lg:p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
     <h2 class="text-xl mb-2">Purchase</h2>
     <ul>
       <li *ngFor="let p of cart.cart_items" class="mb-2 p-2 flex flex-row items-center gap-4 rounded-md border border-neutral-200">
@@ -21,7 +21,7 @@
   </section>
 
   <section class="col-span-2">
-    <div class="py-1 px-10 mb-2 text-lg flex items-center gap-4">
+    <div class="py-1 lg:px-10 mb-2 text-sm sm:text-base lg:text-lg flex items-center gap-2 sm:gap-4">
       <span class="p-2 rounded-xl px-3 py-1" [ngClass]="step >= 1 ? step == 1 ? 'bg-green-200': 'text-green-600' : '' ">Shipping Address</span>
       <div class="h-[2px] grow my-4 bg-neutral-300" [ngClass]="step >= 2 ? 'bg-green-200' : '' "></div>
       <span class="p-2 rounded-xl px-3 py-1" [ngClass]="step >= 2 ? step == 2 ? 'bg-green-200': 'text-green-600' : '' ">Payment</span>
@@ -29,7 +29,7 @@
       <span class="p-2 rounded-xl px-3 py-1" [ngClass]="step >= 3 ? 'bg-green-200' : '' ">Confirmation</span>
     </div>
 
-    <form (ngSubmit)="submitForm1();" [ngClass]="step != 1 ? 'hidden' : ''" [formGroup]="shippingAddress" method="post" class="p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
+    <form (ngSubmit)="submitForm1();" [ngClass]="step != 1 ? 'hidden' : ''" [formGroup]="shippingAddress" method="post" class="p-2 lg:p-4 rounded-lg outline outline-1 outline-neutral-200 shadow-md">
       <input type="text" formControlName="address_line" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Address">
       <span *ngIf="shippingAddress.get('address_line')?.hasError('required') && shippingAddress.get('address_line')?.touched" class="text-xs text-red-500">Required</span>
 
@@ -48,7 +48,7 @@
       <input type="text" formControlName="mobile" class="mt-2 px-3 py-1 w-full border-b border-neutral-300" placeholder="Mobile">
       <span *ngIf="shippingAddress.get('mobile')?.hasError('required') && shippingAddress.get('mobile')?.touched" class="text-xs text-red-500">Required</span>
       
-      <div class="mt-4 flex flex-row-reverse">
+      <div class="mt-4 flex flex-row-reverse items-center">
         <button type="submit" class="bg-orange-100 px-4 py-2 rounded-md ml-2">Continue</button>
         <span *ngIf="errorMessage != ''" class="text-red-400">{{errorMessage}}</span>
       </div>

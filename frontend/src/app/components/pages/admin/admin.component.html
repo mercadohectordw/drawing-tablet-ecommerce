@@ -1,4 +1,4 @@
-<main class="p-10 pb-20 grid grid-cols-3 gap-4">
+<main class="px-4 sm:px-10 lg:px-20 pt-10 pb-20 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
   <aside class="text-xs flex flex-col gap-8">
     <div>
       <h2 class="text-base my-2">Orders</h2>
@@ -55,26 +55,28 @@
     </div>
   </aside>
 
-  <section class="col-span-2">
-    <ul class="flex flex-row justify-center">
-      <li>
-        <a routerLink="/admin/orders" class="block py-2 px-3 rounded-md" routerLinkActive="bg-orange-100">
-          <i class="fa-solid fa-cart-shopping"></i>
-          Orders
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/products" class="block py-2 px-3 rounded-md" routerLinkActive="bg-orange-100">
-          <i class="fa-solid fa-tag"></i>
-          Products
-        </a>
-      </li>
-      <li>
-        <a routerLink="/admin/users" class="block py-2 px-3 rounded-md" routerLinkActive="bg-orange-100">
-          <i class="fa-solid fa-user"></i>
-          Users
-        </a>
-      </li>
+  <section class="md:col-span-2 row-start-1 md:col-start-2">
+    <ul class="mb-4 flex justify-center border-b border-neutral-300">
+      <div class="flex bg-neutral-100 rounded-t-lg text-center">
+        <li>
+          <a routerLink="/admin/orders" routerLinkActive="bg-white border border-b-0 border-neutral-300" class="block py-2 px-3 rounded-t-lg">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Orders
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/products" routerLinkActive="bg-white border border-b-0 border-neutral-300" class="block py-2 px-3 rounded-t-lg">
+            <i class="fa-solid fa-tag"></i>
+            Products
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/users" routerLinkActive="bg-white border border-b-0 border-neutral-300" class="block py-2 px-3 rounded-t-lg">
+            <i class="fa-solid fa-user"></i>
+            Users
+          </a>
+        </li>
+      </div>
     </ul>
 
     <router-outlet></router-outlet>

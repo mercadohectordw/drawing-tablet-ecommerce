@@ -1,6 +1,7 @@
-<section class="p-8">
+<section>
   <nav class="my-4">
-    <ul class="flex flex-row justify-center gap-2">
+    <ul class="flex flex-row items-center justify-center gap-2">
+      <li class="text-sm text-neutral-400">Pages:</li>
       <li *ngFor="let item of [].constructor(numPages); let i = index">
         <a routerLink="/admin/orders" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
       </li>
@@ -14,18 +15,18 @@
         <h2 class="mb-4 text-lg">
           <a routerLink="/admin/orders/{{o.id}}">
             Purchase Order nº {{o.id}} - 
-            <span class="text-neutral-500 text-base">{{o.first_name}} {{o.last_name}}</span>
+            <span class="inline-block text-neutral-500 text-base">{{o.first_name}} {{o.last_name}}</span>
           </a>
         </h2>
 
-        <div class="flex flex-row items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <p class="text-sm text-neutral-500">
             Date: <span class="text-black text-base">{{o.created_at | date:"fullDate"}}</span> <br>
             Hour: <span class="text-black text-base">{{o.created_at | date:"longTime"}}</span>
           </p>
 
           <div>
-            <span *ngIf="o.shipped == 0">
+            <span *ngIf="o.shipped == 0" class="text-orange-600">
               Not delivered yet
             </span>
             <span *ngIf="o.shipped != 0" class="text-green-600">
@@ -50,7 +51,8 @@
   </ul>
 
   <nav class="my-4">
-    <ul class="flex flex-row justify-center gap-2">
+    <ul class="flex flex-row items-center justify-center gap-2">
+      <li class="text-sm text-neutral-400">Pages:</li>
       <li *ngFor="let item of [].constructor(numPages); let i = index">
         <a routerLink="/admin/orders" [queryParams]="{p:i+1}" class="w-8 h-8 flex items-center justify-center rounded-full shadow" routerLinkActive="bg-orange-100"> {{i+1}} </a>
       </li>

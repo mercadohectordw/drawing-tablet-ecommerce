@@ -1,4 +1,4 @@
-<section class="p-8">
+<section>
   <div class="mb-4 flex flex-row-reverse">
     <button (click)="toggleModal();" type="button" class="inline-block px-4 py-2 rounded-lg outline outline-1 outline-neutral-200 shadow hover:bg-neutral-50">
       Create New 
@@ -6,12 +6,12 @@
   </div>
 
   <ul class="flex flex-col gap-4">
-    <li *ngFor="let p of products" [ngClass]="p.active == 0 ? 'opacity-50 hover:opacity-100' :''" class="flex flex-row items-center gap-2 rounded-lg shadow-md outline outline-1 outline-neutral-300 p-4">
-      <div class="w-1/5 mx-4 text-center">
+    <li *ngFor="let p of products" [ngClass]="p.active == 0 ? 'opacity-50 hover:opacity-100' :''" class="flex flex-row items-center gap-2 rounded-lg shadow-md outline outline-1 outline-neutral-300 p-2 sm:p-4">
+      <div class="w-1/4 xs:w-1/5 mx-4 text-center">
         <img src="{{p.main_image}}" alt="{{p.name}}" class="w-full aspect-square object-contain">
       </div>
 
-      <div class="grow">
+      <div class="w-3/4 xs:w-4/5">
         <h2 class="mb-2 text-lg">
           <a routerLink="/admin/products/{{p.id}}">
             <span class="text-neutral-500 text-base">Product ID {{p.id}} - </span>
@@ -24,13 +24,19 @@
           <p>
             Category: <span class="text-base text-black">{{p.category}}</span><br>
             Price: <span class="text-base text-black">{{p.price | currency}}</span><br>
-            Inventory: <span class="text-base text-black mr-4">{{p.inventory}}</span> 
-            Sales: <span class="text-base text-black">{{p.sales}}</span>
+            Inventory: <span class="text-base text-black mr-4">{{p.inventory}}</span>
+            <span class="inline-block">
+              Sales: <span class="text-base text-black">{{p.sales}}</span>
+            </span> 
           </p>
+        </div>
+
+        <div class="mt-2 inline-block sm:hidden">
+          <a routerLink="/admin/products/{{p.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md hover:outline-2">Details</a>
         </div>
       </div>
 
-      <div>
+      <div class="hidden sm:block">
         <a routerLink="/admin/products/{{p.id}}" class="block px-2 py-1 outline outline-1 outline-neutral-500 rounded-md hover:outline-2">Details</a>
       </div>
     </li>

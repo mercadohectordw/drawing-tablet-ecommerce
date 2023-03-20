@@ -43,6 +43,34 @@ export class HeaderComponent implements OnInit {
     }
   }
   
+  toggleMobileMenu(): void{
+    let mobileMenu = document.getElementById("mobileMenu");
+    let mobileUserMenu = document.getElementById("mobileUserMenu");
+
+    if(mobileMenu){
+      if(mobileMenu.style.display == "none"){
+        if(mobileUserMenu?.style.display == "block") mobileUserMenu.style.display = "none";
+        mobileMenu.style.display = "block";
+      } else {
+        mobileMenu.style.display = "none";
+      }
+    }
+  }
+
+  toggleMobileUserMenu(): void{
+    let mobileUserMenu = document.getElementById("mobileUserMenu");
+    let mobileMenu = document.getElementById("mobileMenu");
+
+    if(mobileUserMenu){
+      if(mobileUserMenu.style.display == "none"){
+        if(mobileMenu?.style.display == "block") mobileMenu.style.display = "none";;
+        mobileUserMenu.style.display = "block";
+      } else {
+        mobileUserMenu.style.display = "none";
+      }
+    }
+  }
+
   toggleSearch(): void{
     let searchForm = document.getElementById("search");
     if(searchForm){
