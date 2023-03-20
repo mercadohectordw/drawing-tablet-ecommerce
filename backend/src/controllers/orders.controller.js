@@ -38,7 +38,7 @@ const createOrderFromUser = (req, res) => {
 };
 
 const getAllOrders = (req, res) => {
-  let itemsByPage = 10;
+  let itemsByPage = 20;
   let query = `
     SELECT o.*, u.first_name, u.last_name, u.email
     FROM \`order\` o LEFT JOIN users u ON o.user_id = u.id
