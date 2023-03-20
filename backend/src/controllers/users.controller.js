@@ -122,7 +122,7 @@ const getUserForAdmin = (req, res) => {
 };
 
 const getAllUsers = (req, res) => {
-  let itemsByPage = 10;
+  let itemsByPage = 20;
   let query = `
     SELECT u.id, u.first_name, u.last_name, u.email, u.created_at, 
     CASE WHEN a.user_id IS NULL THEN 0 ELSE 1 END AS \`admin\`
