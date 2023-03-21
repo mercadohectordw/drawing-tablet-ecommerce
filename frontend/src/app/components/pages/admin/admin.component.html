@@ -56,27 +56,29 @@
   </aside>
 
   <section class="md:col-span-2 row-start-1 md:col-start-2">
-    <ul class="mb-4 flex justify-center border-b border-neutral-300">
-      <div class="flex bg-neutral-100 rounded-t-lg text-center">
+    <ul class="mb-4 flex justify-center">
+      <div class="grow border-b-2 border-neutral-200"></div>
+      <div class="flex bg-neutral-200 rounded-t-lg text-center border-2 border-b-0 border-neutral-200">
         <li>
-          <a routerLink="/admin/orders" routerLinkActive="bg-white border border-b-0 border-neutral-300" class="block py-2 px-3 rounded-t-lg">
+          <a routerLink="/admin/orders" routerLinkActive="bg-white" class="block py-2 px-3 rounded-t-lg">
             <i class="fa-solid fa-cart-shopping"></i>
             Orders
           </a>
         </li>
         <li>
-          <a routerLink="/admin/products" routerLinkActive="bg-white border border-b-0 border-neutral-300" class="block py-2 px-3 rounded-t-lg">
+          <a routerLink="/admin/products" routerLinkActive="bg-white" class="block py-2 px-3 rounded-t-lg">
             <i class="fa-solid fa-tag"></i>
             Products
           </a>
         </li>
         <li>
-          <a routerLink="/admin/users" routerLinkActive="bg-white border border-b-0 border-neutral-300" class="block py-2 px-3 rounded-t-lg">
+          <a routerLink="/admin/users" routerLinkActive="bg-white" class="block py-2 px-3 rounded-t-lg">
             <i class="fa-solid fa-user"></i>
             Users
           </a>
         </li>
       </div>
+      <div class="grow border-b-2 border-neutral-200"></div>
     </ul>
 
     <router-outlet></router-outlet>
