@@ -62,7 +62,6 @@ const verifyThatTheProductHasNoSales = (req, res, next) => {
 
   db.query(query)
     .then(([row]) => {
-      console.log(row[0].q);
       if(row[0].q != 0){
         return res.status(400).send({message:"The product has sales"});
       } else {
@@ -70,7 +69,6 @@ const verifyThatTheProductHasNoSales = (req, res, next) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       return res.status(400).send({message:"Something went wrong"})
     });
 };
