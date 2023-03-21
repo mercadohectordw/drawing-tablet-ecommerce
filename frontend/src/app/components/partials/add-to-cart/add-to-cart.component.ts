@@ -26,11 +26,15 @@ export class AddToCartComponent implements OnInit {
           if(token && this.product_id) {
             this.cartService.postCartItem(token, this.product_id).subscribe({
               next: (res:any) => {
-                window.location.href = "/cart";
+                this.router.navigateByUrl("/cart").then(() => {
+                  window.location.reload();
+                });
               },
               error: (err:any) => {
                 if( err.error.message == "The product is already in your cart"){
-                  window.location.href = "/cart";
+                  this.router.navigateByUrl("/cart").then(() => {
+                    window.location.reload();
+                  });
                 }
                 console.log(err);
               }

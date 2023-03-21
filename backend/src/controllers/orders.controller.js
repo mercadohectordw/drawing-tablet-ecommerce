@@ -147,7 +147,7 @@ const deleteOrder = (req, res) => {
     FROM \`order\` o 
     LEFT JOIN order_item oi ON o.id = oi.order_id
     LEFT JOIN shipping_address sa ON o.id = sa.order_id
-    WHERE o.order_id = ${req.params.orderId};
+    WHERE o.id = ${req.params.orderId};
   `;
 
   db.query(query1)

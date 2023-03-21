@@ -110,9 +110,18 @@ export class BuyComponent implements OnInit {
     this.orderService.submitOrder(this.token, body).subscribe({
       next: (res:any) => {
         this.done = true;
-        window.location.href = "/profile";
+        this.router.navigateByUrl("/profile").then(() => {
+          window.location.reload();
+        });
       },
       error: (err:any) => {
+        if(err.error.message == "Data error"){
+          this.errorMessage = "Check your Data";
+          setTimeout(() => {
+            this.errorMessage = "";
+          }, 5000);
+          return;
+        }
         if(err.error.message.includes("enough stock")){
           this.errorMessage = err.error.message;
         }

@@ -12,7 +12,7 @@ const registerDataValidation = (req, res, next) => {
 
   let validation = schema.validate(userData);
   if(validation.error){
-    return res.status(400).send(validation.error);
+    return res.status(400).send({message:"Data error" , validation_error: validation.error});
   }
 
   next();
@@ -28,7 +28,7 @@ const loginDataValidation = (req, res, next) => {
 
   let validation = schema.validate(logData);
   if(validation.error){
-    return res.status(400).send(validation.error);
+    return res.status(400).send({message:"Data error" , validation_error: validation.error});
   }
 
   next();
@@ -49,7 +49,7 @@ const updateDataValidation = (req, res, next) => {
 
   let validation = schema.validate(updateData);
   if(validation.error){
-    return res.status(400).send(validation.error);
+    return res.status(400).send({message:"Data error" , validation_error: validation.error});
   }
 
   next();
@@ -66,7 +66,7 @@ const updatePasswordValidation = (req, res, next) => {
 
   let validation = schema.validate(updatePassword);
   if(validation.error){
-    return res.status(400).send(validation.error);
+    return res.status(400).send({message:"Data error" , validation_error: validation.error});
   }
 
   next();
@@ -84,16 +84,16 @@ const productValidation = (req, res, next) => {
 
   let schema = joi.object({
     name: joi.string().max(255).required(),
-    description: joi.string().max(255).required(),
+    description: joi.string().max(2047).required(),
     price: joi.number().positive().required(),
-    main_image: joi.string().max(255),
+    main_image: joi.string().max(511),
     category_id: joi.number().integer().positive().required(),
     inventory: joi.number().integer().required()
   });
 
   let validation = schema.validate(data);
   if(validation.error){
-    return res.status(400).send(validation.error);
+    return res.status(400).send({message:"Data error" , validation_error: validation.error});
   }
 
   next();
@@ -113,7 +113,7 @@ const addressValidation = (req, res, next) => {
 
   let validation = schema.validate(addressData);
   if(validation.error){
-    return res.status(400).send(validation.error);
+    return res.status(400).send({message:"Data error" , validation_error: validation.error});
   }
 
   next();

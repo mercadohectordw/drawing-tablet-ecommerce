@@ -34,6 +34,7 @@ const getCart = (req, res) => {
       res.status(200).send(cart);
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).send({message:"Something went wrong"});
     });
 }

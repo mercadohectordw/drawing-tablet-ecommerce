@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,14 +18,14 @@ export class ProdListComponent implements OnInit {
   sort: FormGroup;
   path = "";
 
-  constructor(private formBuilder: FormBuilder, private productService: ProductService, private router:Router) {
+  constructor(private formBuilder: FormBuilder, private productService: ProductService, private location: Location, private router:Router) {
     this.sort = formBuilder.group({
       by: ["", [Validators.required]]
     });
   }
 
   ngOnInit(): void {
-    switch(window.location.pathname){
+    switch(this.location.path()){
       case "/pen-tablets": 
         this.categoryId = 1;
         this.path = "Pen Tablets";

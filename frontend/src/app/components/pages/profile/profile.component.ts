@@ -19,20 +19,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     let token = localStorage.getItem("token");
-    if(token){
-      this.userService.getUser(token).subscribe({
-        next: async(res:User) => {
-          this.user = res;
-          
-          if(token) await this.getOrders(token);
-        },
-        error: (err:any) => {
-          localStorage.removeItem("token");
-        }
-      });
-    } else {
-      this.router.navigateByUrl("/home");
-    }
+    if(token) this.getOrders(token);
   }
 
   getOrders(token:string): void{
@@ -41,6 +28,15 @@ export class ProfileComponent implements OnInit {
         this.orders = res;
       },
       error: (err) => {
+        if(err.error.message == "User UnAuthorized"){
+          this.router.navigateByUrl("/home");
+          return;
+        }
+        if(err.error.message == "Invalid Token"){
+          localStorage.removeItem("token");
+          this.router.navigateByUrl("/home");
+          return;
+        }
         console.log(err);
       }
     });

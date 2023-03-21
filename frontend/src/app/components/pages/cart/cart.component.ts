@@ -22,26 +22,13 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     let token = localStorage.getItem("token");
-    if(token){
-      this.userService.getUser(token).subscribe({
-        next: async(res:User) => {
-          if(token) {
-            this.token = token;
-            await this.getCart(token);
-          }
-        },
-        error: (err:any) => {
-          localStorage.removeItem("token");
-        }
-      });
-    } else {
-      this.router.navigateByUrl("/login");
-    }
+    if(token) this.getCart(token);
   }
 
   getCart(token:string): void{
     this.cartService.getUserCart(token).subscribe({
       next: (res:Cart) => {
+        if(token) this.token = token;
         this.totalPrice = 0;
         this.cart = res;
 
@@ -50,6 +37,15 @@ export class CartComponent implements OnInit {
         }
       },
       error: (err:any) => {
+        if(err.error.message == "User UnAuthorized"){
+          this.router.navigateByUrl("/home");
+          return;
+        }
+        if(err.error.message == "Invalid Token"){
+          localStorage.removeItem("token");
+          this.router.navigateByUrl("/home");
+          return;
+        }
         console.log(err);
       }
     });

@@ -6,15 +6,18 @@ const verifyTokenUser = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if(!authHeader || authHeader === 'null'){
+    console.log(err);
     return res.status(403).send({message:'Invalid Token'});
   }
   if(!authHeader.toLowerCase().includes("bearer ")){
+    console.log(err);
     return res.status(403).send({message:'Invalid Token'});
   }
 
   let token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
     if(err){
+      console.log(err);
       return res.status(403).send({message:'Invalid Token'});
     }
 
@@ -22,7 +25,7 @@ const verifyTokenUser = (req, res, next) => {
 
     next();
   });
-}
+};
 
 const verifyTokenAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -61,7 +64,7 @@ const verifyTokenAdmin = (req, res, next) => {
         return res.status(403).send({message:'User UnAuthorized'});
       });
   });
-}
+};
 
 module.exports = {
   verifyTokenUser,

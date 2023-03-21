@@ -28,13 +28,14 @@ export class AdminUserDetailComponent implements OnInit {
           }
         },
         error: (err:any) => {
-          if(err.error.message = "User UnAuthorized"){
+          if(err.error.message == "User UnAuthorized"){
             this.router.navigateByUrl("/home");
             return;
           }
-          if(err.error.message = "Invalid Token"){
+          if(err.error.message == "Invalid Token"){
             localStorage.removeItem("token");
             this.router.navigateByUrl("/home");
+            return;
           }
           console.log(err);
         }
