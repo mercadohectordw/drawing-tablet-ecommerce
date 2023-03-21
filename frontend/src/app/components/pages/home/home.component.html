@@ -30,20 +30,21 @@
   <section class="text-center mx-auto">
     <h2 class="text-2xl font-bold mb-4">Our best selling products </h2>
 
-    <ul class="grid grid-cols-1 max-w-[320px] mx-auto sm:max-w-none sm:grid-cols-3 gap-4">
-      <li *ngFor="let p of products" class="group h-64 rounded-sm hover:bg-orange-100 hover:outline hover:outline-orange-100">
+    <ul class="grid grid-cols-1 max-w-[320px] mx-auto sm:max-w-none sm:grid-cols-3 gap-x-4 gap-y-20">
+      <li *ngFor="let p of products" class="group h-[19rem] rounded-sm hover:bg-orange-100 hover:outline hover:outline-orange-100">
         <a routerLink="/product/{{p.id}}">
           <img src="{{p.main_image}}" alt="{{p.name}}" class="object-contain h-40 px-2 w-full bg-white">
         </a>
-        <div class="h-24 text-center">
-          <h2>
+        <div class="h-36 text-center flex flex-col justify-between">
+          <h2 class="py-1">
             <a routerLink="/product/{{p.id}}">
               {{p.name}}
             </a>
           </h2>
-          <p class="mb-2 group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
-          
-          <app-add-to-cart [product_id]="p.id || 0"></app-add-to-cart>
+          <div class="pb-4">
+            <p class="mb-2 group-hover:text-stone-500 text-orange-400">{{p.price | currency}}</p>
+            <app-add-to-cart [product_id]="p.id || 0"></app-add-to-cart>
+          </div>
         </div>
       </li>
     </ul>
