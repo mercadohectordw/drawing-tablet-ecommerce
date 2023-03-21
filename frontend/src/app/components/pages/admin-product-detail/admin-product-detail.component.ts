@@ -127,6 +127,16 @@ export class AdminProductDetailComponent implements OnInit {
       }
     });
   }
+  
+  toggleModalConfirmDelete(): void{
+    let modalConfirmDelete = document.getElementById("modalConfirmDelete");
+
+    if(modalConfirmDelete){
+      modalConfirmDelete.style.display == "none"
+        ? modalConfirmDelete.style.display = "flex"
+        : modalConfirmDelete.style.display = "none";
+    }
+  }
 
   deleteImage(id:number): void{
     this.productService.deleteSecundaryImage(this.token, id).subscribe({

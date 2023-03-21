@@ -44,6 +44,16 @@ export class AdminOrderDetailComponent implements OnInit {
     }
   }
 
+  toggleModalConfirmDelete(): void{
+    let modalConfirmDelete = document.getElementById("modalConfirmDelete");
+
+    if(modalConfirmDelete){
+      modalConfirmDelete.style.display == "none"
+        ? modalConfirmDelete.style.display = "flex"
+        : modalConfirmDelete.style.display = "none";
+    }
+  }
+
   deleteOrder(): void{
     this.orderService.deleteOrder(this.token, this.order.id).subscribe({
       next: (res:any) => {

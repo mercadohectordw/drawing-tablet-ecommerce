@@ -141,12 +141,14 @@ const updateProduct = (req, res) => {
     });
 };
 
-const changeProductVisibility = (req, res) => {
+const changeProductVisibility = async (req, res) => {
   let query = `
     UPDATE product
     SET active = ${req.body.active}
     WHERE id = ${req.params.productId}
   `;
+
+  await deleteAllCartItemsOfProductDisable(req.params.productId);
 
   db.query(query)
   .then(([row]) => {
@@ -158,22 +160,32 @@ const changeProductVisibility = (req, res) => {
 };
 
 const deleteProduct = async(req, res) => {
-  let query = `
-    DELETE FROM product
-    WHERE id = ${req.params.productId}
+  let query1 = `
+    DELETE pi.*, ci.* 
+    FROM product p
+    LEFT JOIN product_image pi ON p.id = pi.product_id
+    LEFT JOIN cart_item ci ON p.id = ci.product_id
+    WHERE p.id = ${req.params.productId}
   `;
-
-  await deleteAllProductImages(req.params.productId);
   
-  db.query(query)
+  db.query(query1)
     .then(([row]) => {
-      if(row.affectedRows == 0){
-        return res.status(400).send({message:"Product not found"});
-      }
-
-      res.status(200).send({message:"Product deleted"});
+      let query2 = `
+        DELETE FROM product
+        WHERE id = ${req.params.productId}
+      `;
+      
+      db.query(query2)
+        .then(([row]) => {
+          res.status(200).send({message:"Product deleted"});
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).send({message:"Something went wrong"});
+        });
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).send({message:"Something went wrong"});
     });
 };
@@ -229,17 +241,17 @@ const postProductImages = (images, product_id) => {
     })
 };
 
-const deleteAllProductImages = (product_id) => {
+const deleteAllCartItemsOfProductDisable = (product_id) => {
   let query = `
-    DELETE FROM product_image
+    DELETE FROM cart_item
     WHERE product_id = ${product_id}
   `;
 
   db.query(query)
-    .then(([row]) => {
-      return;
-    });
-};
+  .then(([row]) => {
+    return;
+  });
+}
 
 const updateProductInventoryAndSales = (product_id, sales) => {
   let query = `

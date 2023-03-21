@@ -143,8 +143,11 @@ const markOrderAsShipped = (req, res) => {
 
 const deleteOrder = (req, res) => {
   let query1 = `
-    DELETE FROM order_item
-    WHERE order_id = ${req.params.orderId}
+    DELETE oi.*, sa.*
+    FROM \`order\` o 
+    LEFT JOIN order_item oi ON o.id = oi.order_id
+    LEFT JOIN shipping_address sa ON o.id = sa.order_id
+    WHERE o.order_id = ${req.params.orderId};
   `;
 
   db.query(query1)
