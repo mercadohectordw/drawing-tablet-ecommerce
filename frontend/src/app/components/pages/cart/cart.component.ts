@@ -22,7 +22,11 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     let token = localStorage.getItem("token");
-    if(token) this.getCart(token);
+    if(token){
+      this.getCart(token);
+    } else {
+      this.router.navigateByUrl("/login");
+    }
   }
 
   getCart(token:string): void{

@@ -51,6 +51,8 @@ export class UserOptionsComponent implements OnInit {
           this.router.navigateByUrl("/home");
         }
       });
+    } else {
+      this.router.navigateByUrl("/home");
     }
   }
 
