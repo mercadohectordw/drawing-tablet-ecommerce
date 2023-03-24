@@ -47,6 +47,8 @@ export class AddToCartComponent implements OnInit {
           this.router.navigateByUrl("/login");
         }
       });
+    } else {
+      this.router.navigateByUrl("/login");
     }
   }
 }
